@@ -17,7 +17,13 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(libprg)
 
-add_executable(Biblioteca-Comunitaria main.c)
+add_executable(Biblioteca-Comunitaria main.c
+        src/models/livro.c
+        src/models/livro.h
+        src/models/usuario.c
+        src/models/usuario.h
+        src/models/emprestimos.c
+        src/models/emprestimos.h)
 
 # linking libprg
 target_link_libraries(Biblioteca-Comunitaria PUBLIC libprg)
