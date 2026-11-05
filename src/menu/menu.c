@@ -57,8 +57,9 @@ void menuLivros() {
         printf("\n");
 
         printf("\n1 - Cadastrar livro\n");
-        printf("2 - Remover livro\n");
-        printf("3 - Listar livros\n");
+        printf("2 - Buscar livro\n");
+        printf("3 - Remover livro\n");
+        printf("4 - Listar livros\n");
         printf("0 - Voltar\n");
 
         printf("\nEscolha uma opcao: ");
@@ -79,6 +80,50 @@ void menuLivros() {
 
             case 4:
                 printf("\nListagem de livro");
+                break;
+
+            case 0:
+                printf("\nVoltando ao menu pricipal\n");
+                break;
+
+            default:
+                printf("\nOpcao invalida");
+        }
+    }
+}
+
+void menuUsuarios() {
+    int opcao;
+
+    while (opcao != 0) {
+        printf("\n");
+        printf("\tGerenciar Usuarios\n");
+        printf("\n");
+
+        printf("\n1 - Cadastrar usuario\n");
+        printf("2 - Buscar usuario\n");
+        printf("3 - Remover usuario\n");
+        printf("4 - Listar usuario\n");
+        printf("0 - Voltar\n");
+
+        printf("\nEscolha uma opcao: ");
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                printf("\nCadastro de usuario");
+                break;
+
+            case 2:
+                printf("\nBusca de usuario");
+                break;
+
+            case 3:
+                printf("\nRemocao de usuario");
+                break;
+
+            case 4:
+                printf("\nListagem de usuario");
                 break;
 
             case 0:
