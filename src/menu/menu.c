@@ -23,7 +23,7 @@ void menuPrincipal() {
 
         switch (opcao) {
             case 1:
-                printf("\nMenu de livros");
+                menuLivros();
                 break;
 
             case 2:
@@ -40,6 +40,49 @@ void menuPrincipal() {
 
             case 0:
                 printf("\nSair");
+                break;
+
+            default:
+                printf("\nOpcao invalida");
+        }
+    }
+}
+
+void menuLivros() {
+    int opcao;
+
+    while (opcao != 0) {
+        printf("\n");
+        printf("\tGerenciar Livros\n");
+        printf("\n");
+
+        printf("\n1 - Cadastrar livro\n");
+        printf("2 - Remover livro\n");
+        printf("3 - Listar livros\n");
+        printf("0 - Voltar\n");
+
+        printf("\nEscolha uma opcao: ");
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                printf("\nCadastro de livro");
+                break;
+
+            case 2:
+                printf("\nBusca de livro");
+                break;
+
+            case 3:
+                printf("\nRemocao de livro");
+                break;
+
+            case 4:
+                printf("\nListagem de livro");
+                break;
+
+            case 0:
+                printf("\nVoltando ao menu pricipal\n");
                 break;
 
             default:

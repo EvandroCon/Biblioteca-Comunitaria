@@ -4,5 +4,6 @@
 
 #ifndef BIBLIOTECA_COMUNITARIA_MENU_H
 #define BIBLIOTECA_COMUNITARIA_MENU_H
-
+void menuPrincipal() ;
+void menuLivros();
 #endif //BIBLIOTECA_COMUNITARIA_MENU_H

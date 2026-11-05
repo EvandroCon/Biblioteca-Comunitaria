@@ -1,7 +1,10 @@
 #include <stdio.h>
 
-int main() {
-    printf("Teste");
+#include "src/menu/menu.h"
 
+int main() {
+    menuPrincipal();
+
+    return 0;
 }
 
