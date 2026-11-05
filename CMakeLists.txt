@@ -23,7 +23,9 @@ add_executable(Biblioteca-Comunitaria main.c
         src/models/usuario.c
         src/models/usuario.h
         src/models/emprestimos.c
-        src/models/emprestimos.h)
+        src/models/emprestimos.h
+        src/menu/menu.c
+        src/menu/menu.h)
 
 # linking libprg
 target_link_libraries(Biblioteca-Comunitaria PUBLIC libprg)
