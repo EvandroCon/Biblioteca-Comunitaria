@@ -5,8 +5,8 @@
 #ifndef BIBLIOTECA_COMUNITARIA_MENU_H
 #define BIBLIOTECA_COMUNITARIA_MENU_H
 void menuPrincipal() ;
-void menuLivros();
-void menuUsuarios();
-void menuEmprestimos();
-void menuHistorico();
+
+
+
+
 #endif //BIBLIOTECA_COMUNITARIA_MENU_H

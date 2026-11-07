@@ -4,8 +4,3 @@
 
 #include "usuario.h"
 
-typedef struct {
-    int id;
-    char nome[100];
-    char email[100];
-} Usuario;

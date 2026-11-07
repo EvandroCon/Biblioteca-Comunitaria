@@ -5,4 +5,10 @@
 #ifndef BIBLIOTECA_COMUNITARIA_USUARIO_H
 #define BIBLIOTECA_COMUNITARIA_USUARIO_H
 
+typedef struct {
+    int id;
+    char nome[100];
+    char email[100];
+} Usuario;
+
 #endif //BIBLIOTECA_COMUNITARIA_USUARIO_H
