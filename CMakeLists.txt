@@ -33,7 +33,9 @@ add_executable(Biblioteca-Comunitaria main.c
         src/menu/menu_emprestimos.c
         src/menu/menu_emprestimos.h
         src/menu/menu_historico.c
-        src/menu/menu_historico.h)
+        src/menu/menu_historico.h
+        src/utils/entrada.c
+        src/utils/entrada.h)
 
 # linking libprg
 target_link_libraries(Biblioteca-Comunitaria PUBLIC libprg)
