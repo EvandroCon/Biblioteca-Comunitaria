@@ -12,6 +12,8 @@ typedef struct {
 
 void inicializarLivros(void);
 int cadastrarLivro(Livro livro);
+Livro *buscarLivroPorId(int id);
+int buscarLivrosPorTitulo(const char *titulo);
 void liberarLivros(void);
 
 #endif //BIBLIOTECA_COMUNITARIA_LIVRO_H

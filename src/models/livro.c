@@ -74,6 +74,48 @@ int cadastrarLivro(Livro livro) {
     return 1;
 }
 
+// Devolve um ponteiro para o livro, ou NULL se nao existir
+Livro *buscarLivroPorId(int id) {
+    NoLivro *atual = inicioLivros;
+
+    while (atual != NULL) {
+        if (atual->livro.id == id) {
+            return &atual->livro;
+        }
+        atual = atual->proximo;
+    }
+    return NULL;
+}
+
+// Verifica se um trecho de texto aparece dentro de outro.
+int contemTexto(const char *texto, const char *trecho) {
+    return strstr(texto, trecho) != NULL;
+}
+
+// Imprime todos os livros cujo titulo contem o texto informado.
+// Devolve quantos livros foram encontrados.
+int buscarLivrosPorTitulo(const char *titulo) {
+    NoLivro *atual = inicioLivros;
+    int encontrados = 0;
+
+    while (atual != NULL) {
+
+        if (contemTexto(atual->livro.titulo, titulo)) {
+            printf("Codigo: %d | Titulo: %s | Autor: %s | Ano: %d | Quantidade: %d\n",
+                   atual->livro.id,
+                   atual->livro.titulo,
+                   atual->livro.autor,
+                   atual->livro.ano,
+                   atual->livro.quantidade);
+            encontrados++;
+        }
+
+        atual = atual->proximo;
+    }
+
+    return encontrados;
+}
+
 // Libera a memoria de todos os nos
 void liberarLivros(void) {
     NoLivro *atual = inicioLivros;
