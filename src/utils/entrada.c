@@ -34,5 +34,5 @@ void lerString(const char *mensagem, char *destino, size_t tamanho) {
         return;
     }
     //remocao do caractere de quebra de linha
-    destino[strcspn(destino, "\n")] = '\0';
+    destino[strcspn(destino, "\r\n")] = '\0';
 }

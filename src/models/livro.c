@@ -1,64 +1,88 @@
 #include <stdio.h>
 #include "livro.h"
-#include "libprg/libprg.h"
+#include <stdlib.h>
 #include <string.h>
 
-#define MAX_LIVROS 100
+// No da lista encadeada: guarda um livro completo e aponta para o proximo
+typedef struct NoLivro {
+    Livro livro;
+    struct NoLivro *proximo;   // NULL no ultimo no
+} NoLivro;
 
-Livro livros[MAX_LIVROS];
+// Ponteiro para o primeiro no: e por ele que a lista e percorrida.
+// Se for NULL, nao ha livros cadastrados.
+static NoLivro *inicioLivros = NULL;
 
-int quantidadeLivros = 0;
+// Contador de livros; aumenta no cadastro e diminui na remocao.
+static int quantidadeLivros = 0;
 
-lista_linear_t *listaLivros;
-
-void inicializarLivros() {
-    listaLivros = criar_lista(true);
+void inicializarLivros(void) {
+    inicioLivros = NULL;
+    quantidadeLivros = 0;
 }
 
 int cadastrarLivro(Livro livro) {
 
-    //Verificando a quantidade, nao pode ser negativa
+    // A quantidade nao pode ser negativa
     if (livro.quantidade < 0) {
         return 0;
     }
 
-    //Verificar se o codigo e valido
+    // O codigo deve ser valido
     if (livro.id <= 0) {
         return 0;
     }
 
-    // Verificar se existe espaço disponível
-    if (quantidadeLivros >= MAX_LIVROS) {
-        return 0;
-    }
+    // Percorre a lista verificando duplicidade e guardando o ultimo no
+    NoLivro *atual = inicioLivros;
+    NoLivro *ultimo = NULL;
 
-    // Verificar duplicidade, percorre os livros
-    for (int i = 0; i < quantidadeLivros; i++) {
+    while (atual != NULL) {
 
         // Codigo ja cadastrado
-        if (livros[i].id == livro.id) {
+        if (atual->livro.id == livro.id) {
             return 0;
         }
 
-        //Mesmo titulo e autor ja cadastrados
-        //(strcmp diferencia maiusculas de minusculas)
-        if (strcmp(livros[i].titulo, livro.titulo) == 0 &&
-            strcmp(livros[i].autor, livro.autor) == 0) {
+        // Mesmo titulo e autor ja cadastrados
+        // (strcmp diferencia maiusculas de minusculas)
+        if (strcmp(atual->livro.titulo, livro.titulo) == 0 &&
+            strcmp(atual->livro.autor, livro.autor) == 0) {
             return 0;
             }
+
+        ultimo = atual;
+        atual = atual->proximo;
     }
 
-    // Inserir o código na lista da libprg
-    if (!inserir(listaLivros, livro.id)) {
+    // Cria o novo no
+    NoLivro *novo = malloc(sizeof(NoLivro));
+    if (novo == NULL) {
         return 0;
     }
+    novo->livro = livro;
+    novo->proximo = NULL;
 
-    // Armazenar os dados completos do livro
-    livros[quantidadeLivros] = livro;
+    // Insere no final, mantendo a ordem de cadastro
+    if (ultimo == NULL) {
+        inicioLivros = novo;
+    } else {
+        ultimo->proximo = novo;
+    }
 
     quantidadeLivros++;
-
-
-
     return 1;
+}
+
+// Libera a memoria de todos os nos
+void liberarLivros(void) {
+    NoLivro *atual = inicioLivros;
+
+    while (atual != NULL) {
+        NoLivro *proximo = atual->proximo;
+        free(atual);
+        atual = proximo;
+    }
+    inicioLivros = NULL;
+    quantidadeLivros = 0;
 }

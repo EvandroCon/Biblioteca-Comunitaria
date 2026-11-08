@@ -1,7 +1,3 @@
-//
-// Created by aluno on 03/11/2026.
-//
-
 #ifndef BIBLIOTECA_COMUNITARIA_LIVRO_H
 #define BIBLIOTECA_COMUNITARIA_LIVRO_H
 
@@ -14,8 +10,8 @@ typedef struct {
 } Livro;
 
 
-
-void inicializarLivros();
+void inicializarLivros(void);
 int cadastrarLivro(Livro livro);
+void liberarLivros(void);
 
 #endif //BIBLIOTECA_COMUNITARIA_LIVRO_H

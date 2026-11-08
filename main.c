@@ -8,5 +8,7 @@ int main() {
 
     menuPrincipal();
 
+    liberarLivros();
+
     return 0;
 }
