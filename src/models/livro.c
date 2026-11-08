@@ -16,6 +16,7 @@ static NoLivro *inicioLivros = NULL;
 // Contador de livros; aumenta no cadastro e diminui na remocao.
 static int quantidadeLivros = 0;
 
+//Essa função coloca a lista de livros no estado inicial: vazia.
 void inicializarLivros(void) {
     inicioLivros = NULL;
     quantidadeLivros = 0;
@@ -85,6 +86,34 @@ Livro *buscarLivroPorId(int id) {
         atual = atual->proximo;
     }
     return NULL;
+}
+
+// Remove o livro com o codigo informado. Devolve 1 se removeu, 0 se nao achou
+int removerLivro(int id) {
+    NoLivro *atual = inicioLivros;
+    NoLivro *anterior = NULL;
+
+    while (atual != NULL) {
+
+        if (atual->livro.id == id) {
+
+            // Religa a lista, pulando o no removido
+            if (anterior == NULL) {
+                inicioLivros = atual->proximo;   // removendo o primeiro no
+            } else {
+                anterior->proximo = atual->proximo;
+            }
+
+            free(atual);
+            quantidadeLivros--;
+            return 1;
+        }
+
+        anterior = atual;
+        atual = atual->proximo;
+    }
+
+    return 0;
 }
 
 // Imprime codigo e titulo de todos os livros, na ordem de cadastro.

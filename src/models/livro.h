@@ -13,6 +13,7 @@ typedef struct {
 void inicializarLivros(void);
 int cadastrarLivro(Livro livro);
 Livro *buscarLivroPorId(int id);
+int removerLivro(int id);
 int listarLivros(void);
 void liberarLivros(void);
 
