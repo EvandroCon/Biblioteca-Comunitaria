@@ -87,35 +87,6 @@ Livro *buscarLivroPorId(int id) {
     return NULL;
 }
 
-// Verifica se um trecho de texto aparece dentro de outro.
-int contemTexto(const char *texto, const char *trecho) {
-    return strstr(texto, trecho) != NULL;
-}
-
-// Imprime todos os livros cujo titulo contem o texto informado.
-// Devolve quantos livros foram encontrados.
-int buscarLivrosPorTitulo(const char *titulo) {
-    NoLivro *atual = inicioLivros;
-    int encontrados = 0;
-
-    while (atual != NULL) {
-
-        if (contemTexto(atual->livro.titulo, titulo)) {
-            printf("Codigo: %d | Titulo: %s | Autor: %s | Ano: %d | Quantidade: %d\n",
-                   atual->livro.id,
-                   atual->livro.titulo,
-                   atual->livro.autor,
-                   atual->livro.ano,
-                   atual->livro.quantidade);
-            encontrados++;
-        }
-
-        atual = atual->proximo;
-    }
-
-    return encontrados;
-}
-
 // Imprime codigo e titulo de todos os livros, na ordem de cadastro.
 // Devolve quantos foram listados
 int listarLivros(void) {
