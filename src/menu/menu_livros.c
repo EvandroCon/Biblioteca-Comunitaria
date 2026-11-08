@@ -34,7 +34,7 @@ void menuLivros() {
             break;
 
         case 2:
-            printf("\nBusca de livro");
+            menuBuscarLivro();
             break;
 
         case 3:
@@ -93,5 +93,52 @@ void menuCadastrarLivro() {
         printf("\nLivro cadastrado com sucesso!\n");
     } else {
         printf("\nNao foi possivel cadastrar, livro ja cadastrado.\n");
+    }
+}
+
+void menuBuscarLivro() {
+
+    int tipo;
+
+    printf("\n--- BUSCAR LIVRO ---\n");
+    printf("1 - Por codigo\n");
+    printf("2 - Por titulo\n");
+
+    if (!lerInt("Escolha: ", &tipo)) {
+        printf("\nEntrada invalida\n");
+        return;
+    }
+
+    if (tipo == 1) {
+        int id;
+        if (!lerInt("Codigo: ", &id) || id <= 0) {
+            printf("\nErro: o codigo deve ser um numero positivo!\n");
+            return;
+        }
+
+        Livro *livro = buscarLivroPorId(id);
+        if (livro == NULL) {
+            printf("\nLivro nao encontrado.\n");
+            return;
+        }
+        printf("\nCodigo: %d | Titulo: %s | Autor: %s | Ano: %d | Quantidade: %d\n",
+               livro->id, livro->titulo, livro->autor, livro->ano, livro->quantidade);
+
+    } else if (tipo == 2) {
+        char titulo[100];
+        lerString("Titulo (ou parte dele): ", titulo, sizeof titulo);
+
+        if (strlen(titulo) == 0) {
+            printf("\nErro: digite pelo menos uma parte do titulo!\n");
+            return;
+        }
+
+        printf("\n");
+        if (buscarLivrosPorTitulo(titulo) == 0) {
+            printf("Nenhum livro encontrado.\n");
+        }
+
+    } else {
+        printf("\nOpcao invalida\n");
     }
 }
