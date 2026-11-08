@@ -42,7 +42,7 @@ void menuLivros() {
             break;
 
         case 4:
-            printf("\nListagem de livro");
+            menuListarLivros();
             break;
 
         case 0:
@@ -140,5 +140,18 @@ void menuBuscarLivro() {
 
     } else {
         printf("\nOpcao invalida\n");
+    }
+}
+
+void menuListarLivros() {
+
+    printf("\n--- LISTA DE LIVROS ---\n\n");
+
+    int total = listarLivros();
+
+    if (total == 0) {
+        printf("Nenhum livro cadastrado.\n");
+    } else {
+        printf("\nTotal: %d livro(s)\n", total);
     }
 }

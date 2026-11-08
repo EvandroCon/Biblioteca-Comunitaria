@@ -7,4 +7,5 @@
 void menuLivros();
 void menuCadastrarLivro();
 void menuBuscarLivro();
+void menuListarLivros();
 #endif //BIBLIOTECA_COMUNITARIA_MENU_LIVROS_H
