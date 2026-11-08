@@ -38,7 +38,7 @@ void menuLivros() {
             break;
 
         case 3:
-            printf("\nRemocao de livro");
+            menuRemoverLivro();
             break;
 
         case 4:
@@ -120,6 +120,24 @@ void menuBuscarLivro() {
     printf("Autor: %s\n", livro->autor);
     printf("Ano: %d\n", livro->ano);
     printf("Quantidade: %d\n", livro->quantidade);
+}
+
+void menuRemoverLivro() {
+
+    int id;
+
+    printf("\n--- REMOVER LIVRO ---\n");
+
+    if (!lerInt("Codigo: ", &id) || id <= 0) {
+        printf("\nErro: o codigo deve ser um numero positivo!\n");
+        return;
+    }
+
+    if (removerLivro(id)) {
+        printf("\nLivro removido com sucesso!\n");
+    } else {
+        printf("\nLivro nao encontrado.\n");
+    }
 }
 
 void menuListarLivros() {
