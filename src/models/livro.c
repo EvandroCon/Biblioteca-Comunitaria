@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "livro.h"
 #include "libprg/libprg.h"
+#include <string.h>
 
 #define MAX_LIVROS 100
 
@@ -20,8 +21,8 @@ int cadastrarLivro(Livro livro) {
     if (livro.quantidade < 0) {
         return 0;
     }
-    
-    //Verificar se o codigo é valido
+
+    //Verificar se o codigo e valido
     if (livro.id <= 0) {
         return 0;
     }
@@ -31,12 +32,20 @@ int cadastrarLivro(Livro livro) {
         return 0;
     }
 
-    // Verificar se o código já está cadastrado
+    // Verificar duplicidade, percorre os livros
     for (int i = 0; i < quantidadeLivros; i++) {
 
+        // Codigo ja cadastrado
         if (livros[i].id == livro.id) {
             return 0;
         }
+
+        //Mesmo titulo e autor ja cadastrados
+        //(strcmp diferencia maiusculas de minusculas)
+        if (strcmp(livros[i].titulo, livro.titulo) == 0 &&
+            strcmp(livros[i].autor, livro.autor) == 0) {
+            return 0;
+            }
     }
 
     // Inserir o código na lista da libprg

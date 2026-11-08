@@ -57,59 +57,41 @@ void menuLivros() {
 
 void menuCadastrarLivro() {
 
-    //cria uma variavel livro do tipo Livro
     Livro livro;
 
     printf("\n--- CADASTRAR LIVRO ---\n");
 
-    printf("Codigo: ");
-    scanf("%d", &livro.id);
-
-    //consume o \n que fica no buffer depois que o usuario digita o código e pressiona Enter
-    getchar();
-
-    //validacao do codigo
-    if (livro.id <= 0) {
-        printf("\nErro: o codigo deve ser positivo!\n");
+    //Se a leitura falhou ou o código é menor ou igual a zero, então mostre o erro e saia.
+    if (!lerInt("Codigo: ", &livro.id) || livro.id <= 0) {
+        printf("\nErro: o codigo deve ser um numero positivo!\n");
         return;
     }
 
-    printf("Titulo: ");
-    //fgets() permite ler textos com espaços.
-    fgets(livro.titulo, 100, stdin);
-
-    //remove o Enter que fica armazenado no final do texto, substitui por \0
-    livro.titulo[strcspn(livro.titulo, "\n")] = '\0';
-
-    //calcula a quantidade de caracteres existentes no texto, sem contar o \0
+    lerString("Titulo: ", livro.titulo, sizeof livro.titulo);
     if (strlen(livro.titulo) == 0) {
         printf("\nErro: o titulo nao pode ficar vazio!\n");
         return;
     }
 
-    printf("Autor: ");
-    fgets(livro.autor, 100, stdin);
-
-    livro.autor[strcspn(livro.autor, "\n")] = '\0';
-
+    lerString("Autor: ", livro.autor, sizeof livro.autor);
     if (strlen(livro.autor) == 0) {
         printf("\nErro: o autor nao pode ficar vazio!\n");
         return;
     }
 
-    printf("Quantidade: ");
-    scanf("%d", &livro.quantidade);
-
-    //validacao da quantidade
-    if (livro.quantidade < 0) {
-        printf("\nErro: a quantidade nao pode ser negativa!\n");
+    if (!lerInt("Ano: ", &livro.ano) || livro.ano <= 0) {
+        printf("\nErro: o ano deve ser um numero positivo!\n");
         return;
     }
 
-    //tenta fazer o cadastro
+    if (!lerInt("Quantidade: ", &livro.quantidade) || livro.quantidade < 0) {
+        printf("\nErro: a quantidade deve ser um numero nao negativo!\n");
+        return;
+    }
+
     if (cadastrarLivro(livro)) {
         printf("\nLivro cadastrado com sucesso!\n");
     } else {
-        printf("\nNao foi possivel cadastrar, livro já cadastrado.\n");
+        printf("\nNao foi possivel cadastrar, livro ja cadastrado.\n");
     }
 }
