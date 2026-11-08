@@ -116,6 +116,19 @@ int buscarLivrosPorTitulo(const char *titulo) {
     return encontrados;
 }
 
+// Imprime codigo e titulo de todos os livros, na ordem de cadastro.
+// Devolve quantos foram listados
+int listarLivros(void) {
+    NoLivro *atual = inicioLivros;
+
+    while (atual != NULL) {
+        printf("%d - %s\n", atual->livro.id, atual->livro.titulo);
+        atual = atual->proximo;
+    }
+
+    return quantidadeLivros;
+}
+
 // Libera a memoria de todos os nos
 void liberarLivros(void) {
     NoLivro *atual = inicioLivros;
