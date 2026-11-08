@@ -3,7 +3,7 @@
 //
 #include <stdio.h>
 #include "menu_livros.h"
-
+#include "../utils/entrada.h"
 #include <string.h>
 
 #include "../models/livro.h"
@@ -22,8 +22,11 @@ void menuLivros() {
         printf("4 - Listar livros\n");
         printf("0 - Voltar\n");
 
-        printf("\nEscolha uma opcao: ");
-        scanf("%d", &opcao);
+        if (!lerInt("\nEscolha uma opcao: ", &opcao)) {
+            printf("\nEntrada invalida\n");
+            opcao = -1;
+            continue;
+        }
 
         switch (opcao) {
         case 1:
@@ -43,7 +46,7 @@ void menuLivros() {
             break;
 
         case 0:
-            printf("\nVoltando ao menu pricipal\n");
+            printf("\nVoltando ao menu principal\n");
             break;
 
         default:
@@ -54,6 +57,7 @@ void menuLivros() {
 
 void menuCadastrarLivro() {
 
+    //cria uma variavel livro do tipo Livro
     Livro livro;
 
     printf("\n--- CADASTRAR LIVRO ---\n");
@@ -61,18 +65,23 @@ void menuCadastrarLivro() {
     printf("Codigo: ");
     scanf("%d", &livro.id);
 
+    //consume o \n que fica no buffer depois que o usuario digita o código e pressiona Enter
     getchar();
 
+    //validacao do codigo
     if (livro.id <= 0) {
         printf("\nErro: o codigo deve ser positivo!\n");
         return;
     }
 
     printf("Titulo: ");
+    //fgets() permite ler textos com espaços.
     fgets(livro.titulo, 100, stdin);
 
+    //remove o Enter que fica armazenado no final do texto, substitui por \0
     livro.titulo[strcspn(livro.titulo, "\n")] = '\0';
 
+    //calcula a quantidade de caracteres existentes no texto, sem contar o \0
     if (strlen(livro.titulo) == 0) {
         printf("\nErro: o titulo nao pode ficar vazio!\n");
         return;
@@ -91,11 +100,13 @@ void menuCadastrarLivro() {
     printf("Quantidade: ");
     scanf("%d", &livro.quantidade);
 
+    //validacao da quantidade
     if (livro.quantidade < 0) {
         printf("\nErro: a quantidade nao pode ser negativa!\n");
         return;
     }
 
+    //tenta fazer o cadastro
     if (cadastrarLivro(livro)) {
         printf("\nLivro cadastrado com sucesso!\n");
     } else {

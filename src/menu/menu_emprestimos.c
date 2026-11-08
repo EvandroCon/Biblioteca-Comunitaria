@@ -3,7 +3,7 @@
 //
 
 #include "menu_emprestimos.h"
-
+#include "../utils/entrada.h"
 #include <stdio.h>
 
 void menuEmprestimos() {
@@ -20,8 +20,11 @@ void menuEmprestimos() {
         printf("4 - Listar emprestimo\n");
         printf("0 - Voltar\n");
 
-        printf("\nEscolha uma opcao: ");
-        scanf("%d", &opcao);
+        if (!lerInt("\nEscolha uma opcao: ", &opcao)) {
+            printf("\nEntrada invalida\n");
+            opcao = -1;
+            continue;
+        }
 
         switch (opcao) {
         case 1:
@@ -41,7 +44,7 @@ void menuEmprestimos() {
             break;
 
         case 0:
-            printf("\nVoltando ao menu pricipal\n");
+            printf("\nVoltando ao menu principal\n");
             break;
 
         default:

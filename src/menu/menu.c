@@ -5,6 +5,7 @@
 #include "menu_usuarios.h"
 #include "menu_emprestimos.h"
 #include "menu_historico.h"
+#include "../utils/entrada.h"
 
 void menuPrincipal() {
     int opcao = -1;
@@ -20,8 +21,11 @@ void menuPrincipal() {
         printf("4 - Historico de operacoes\n");
         printf("0 - Sair\n");
 
-        printf("\nEscolha uma opcao: ");
-        scanf("%d", &opcao);
+        if (!lerInt("\nEscolha uma opcao: ", &opcao)) {
+            printf("\nEntrada invalida\n");
+            opcao = -1;
+            continue;
+        }
 
         switch (opcao) {
             case 1:

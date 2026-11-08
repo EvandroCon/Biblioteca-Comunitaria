@@ -3,7 +3,7 @@
 //
 
 #include "menu_historico.h"
-
+#include "../utils/entrada.h"
 #include <stdio.h>
 
 void menuHistorico() {
@@ -18,8 +18,11 @@ void menuHistorico() {
         printf("2 - Lista historico de operacoes\n");
         printf("0 - Voltar\n");
 
-        printf("\nEscolha uma opcao: ");
-        scanf("%d", &opcao);
+        if (!lerInt("\nEscolha uma opcao: ", &opcao)) {
+            printf("\nEntrada invalida\n");
+            opcao = -1;
+            continue;
+        }
 
         switch (opcao) {
         case 1:
@@ -31,7 +34,7 @@ void menuHistorico() {
             break;
 
         case 0:
-            printf("\nVoltando ao menu pricipal\n");
+            printf("\nVoltando ao menu principal\n");
             break;
 
         default:
