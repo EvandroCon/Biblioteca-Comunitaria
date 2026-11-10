@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include "livro.h"
+
+#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -22,6 +24,24 @@ void inicializarLivros(void) {
     quantidadeLivros = 0;
 }
 
+//Compara dois titulos sem diferenciar maiusculas de minusculas
+//Devolve negativo se a<b, 0 se iguais, positivo se a > b
+static int compararTitulos(const char *a, const char *b) {
+    int i =0;
+    while (a[i] != '\0' && b[i] != '\0') {
+        int ca = tolower((unsigned char) a[i]);
+        int cb = tolower((unsigned char) b[i]);
+
+        if (ca != cb) {    //As letras sao diferentes?
+            return ca - cb; //A subtracao diz quem vem primeiro
+        }
+        i++;
+    }
+    return tolower((unsigned char) a[i]) - tolower((unsigned char) b[i]);
+}
+
+//A funcao recebe uma copia do livro ja montado pelo menu.
+//Ela devolve 1 se cadastrou e 0 se recusou.
 int cadastrarLivro(Livro livro) {
 
     // A quantidade nao pode ser negativa
@@ -35,9 +55,11 @@ int cadastrarLivro(Livro livro) {
     }
 
     // Percorre a lista verificando duplicidade e guardando o ultimo no
-    NoLivro *atual = inicioLivros;
-    NoLivro *ultimo = NULL;
+    NoLivro *atual = inicioLivros; //no que esta sendo examinado, começando no primeiro
+    NoLivro *anteriorPosicao = NULL; //no depois do qual o novo livro sera inserido
+    int posicaoEncontrada = 0;
 
+    //percorre a lista inteira
     while (atual != NULL) {
 
         // Codigo ja cadastrado
@@ -52,7 +74,16 @@ int cadastrarLivro(Livro livro) {
             return 0;
             }
 
-        ultimo = atual;
+        //Se a posicao alfabetica chegou, enquanto nao achou o lugarm compara o titulo novo com o do no
+        //Enquanto o novo titulo vier depois do atual, a posicao ainda nao chegou
+        if (!posicaoEncontrada) {
+            if (compararTitulos(livro.titulo, atual->livro.titulo) < 0) {
+                posicaoEncontrada = 1;
+            } else {
+                anteriorPosicao = atual;
+            }
+        }
+
         atual = atual->proximo;
     }
 
@@ -62,13 +93,14 @@ int cadastrarLivro(Livro livro) {
         return 0;
     }
     novo->livro = livro;
-    novo->proximo = NULL;
 
-    // Insere no final, mantendo a ordem de cadastro
-    if (ultimo == NULL) {
+    // Insere mantendo a ordem alfabetica por titulo
+    if (anteriorPosicao == NULL) {
+        novo->proximo = inicioLivros; //Vai para o inicio
         inicioLivros = novo;
     } else {
-        ultimo->proximo = novo;
+        novo->proximo = anteriorPosicao->proximo;
+        anteriorPosicao->proximo = novo;
     }
 
     quantidadeLivros++;
