@@ -69,6 +69,31 @@ int cadastrarUsuario(Usuario usuario) {
     return 1;
 }
 
+int buscarUsuario(int id, Usuario *usuarioEncontrado) {
+
+    if (id <= 0 || usuarioEncontrado == NULL) {
+        return 0;
+    }
+
+    NoUsuario *atual = raizUsuarios;
+
+    while (atual != NULL) {
+
+        if (id == atual->usuario.id) {
+            *usuarioEncontrado = atual->usuario;
+            return 1;
+        }
+
+        if (id < atual->usuario.id) {
+            atual = atual->esquerda;
+        } else {
+            atual = atual->direita;
+        }
+    }
+
+    return 0;
+}
+
 static void liberarNo(NoUsuario *raiz) {
 
     if (raiz == NULL) {
