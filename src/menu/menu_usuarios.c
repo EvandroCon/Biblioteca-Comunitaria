@@ -1,10 +1,8 @@
-//
-// Created by vando on 07/11/2026.
-//
-
 #include "menu_usuarios.h"
 #include "../utils/entrada.h"
 #include <stdio.h>
+#include <string.h>
+#include "../models/usuario.h"
 
 void menuUsuarios() {
     int opcao = -1;
@@ -28,7 +26,7 @@ void menuUsuarios() {
 
         switch (opcao) {
         case 1:
-            printf("\nCadastro de usuario");
+            menuCadastrarUsuario();
             break;
 
         case 2:
@@ -50,5 +48,49 @@ void menuUsuarios() {
         default:
             printf("\nOpcao invalida");
         }
+    }
+}
+
+static int emailValido(const char *email) {
+    const char *arroba = strchr(email, '@');
+
+    if (arroba == NULL || arroba == email) {
+        return 0;
+    }
+    if (strchr(email, ' ') != NULL) {
+        return 0;
+    }
+
+    const char *ponto = strchr(arroba + 1, '.');
+    return ponto != NULL && ponto != arroba + 1 && ponto[1] != '\0';
+}
+
+void menuCadastrarUsuario() {
+
+    Usuario usuario;
+
+    printf("\n--- CADASTRAR USUARIO ---\n");
+
+    if (!lerInt("Codigo: ", &usuario.id) || usuario.id <= 0) {
+        printf("\nErro: o codigo deve ser um numero positivo!\n");
+        return;
+    }
+
+    lerString("Nome: ", usuario.nome, sizeof usuario.nome);
+    if (strlen(usuario.nome) == 0) {
+        printf("\nErro: o nome nao pode ficar vazio!\n");
+        return;
+    }
+
+    lerString("E-mail: ", usuario.email, sizeof usuario.email);
+    if (!emailValido(usuario.email)) {
+        printf("\nErro: e-mail invalido (use o formato nome@dominio.com)!\n");
+        return;
+    }
+
+    if (cadastrarUsuario(usuario)) {
+        printf("\nUsuario cadastrado com sucesso!\n");
+    } else {
+        printf("\nNao foi possivel cadastrar, codigo ja cadastrado.\n");
     }
 }

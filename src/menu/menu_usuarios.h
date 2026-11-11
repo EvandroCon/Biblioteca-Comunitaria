@@ -2,5 +2,6 @@
 #define BIBLIOTECA_COMUNITARIA_MENU_USUARIOS_H
 
 void menuUsuarios();
+void menuCadastrarUsuario();
 
 #endif //BIBLIOTECA_COMUNITARIA_MENU_USUARIOS_H
