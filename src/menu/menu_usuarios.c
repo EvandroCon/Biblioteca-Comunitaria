@@ -30,7 +30,7 @@ void menuUsuarios() {
             break;
 
         case 2:
-            printf("\nBusca de usuario");
+            menuBuscarUsuario();
             break;
 
         case 3:
@@ -93,4 +93,27 @@ void menuCadastrarUsuario() {
     } else {
         printf("\nNao foi possivel cadastrar, codigo ja cadastrado.\n");
     }
+}
+
+void menuBuscarUsuario() {
+
+    int id;
+    Usuario usuario;
+
+    printf("\n--- BUSCAR USUARIO ---\n");
+
+    if (!lerInt("Codigo: ", &id) || id <= 0) {
+        printf("\nErro: o codigo deve ser um numero positivo!\n");
+        return;
+    }
+
+    if (!buscarUsuario(id, &usuario)) {
+        printf("\nUsuario nao encontrado.\n");
+        return;
+    }
+
+    printf("\nUsuario encontrado:\n");
+    printf("Codigo: %d\n", usuario.id);
+    printf("Nome: %s\n", usuario.nome);
+    printf("E-mail: %s\n", usuario.email);
 }
