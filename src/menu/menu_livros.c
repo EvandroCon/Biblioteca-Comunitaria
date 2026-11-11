@@ -61,7 +61,6 @@ void menuCadastrarLivro() {
 
     printf("\n--- CADASTRAR LIVRO ---\n");
 
-    //Se a leitura falhou ou o código é menor ou igual a zero, então mostre o erro e saia.
     if (!lerInt("Codigo: ", &livro.id) || livro.id <= 0) {
         printf("\nErro: o codigo deve ser um numero positivo!\n");
         return;

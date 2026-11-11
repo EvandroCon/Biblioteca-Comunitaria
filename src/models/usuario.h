@@ -11,4 +11,8 @@ typedef struct {
     char email[100];
 } Usuario;
 
+int cadastrarUsuario(Usuario usuario);
+void inicializarUsuarios(void);
+void liberarUsuarios(void);
+
 #endif //BIBLIOTECA_COMUNITARIA_USUARIO_H
