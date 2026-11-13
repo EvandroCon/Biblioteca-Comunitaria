@@ -94,6 +94,77 @@ int buscarUsuario(int id, Usuario *usuarioEncontrado) {
     return 0;
 }
 
+static NoUsuario *encontrarMenor(NoUsuario *raiz) {
+
+    while (raiz->esquerda != NULL) {
+        raiz = raiz->esquerda;
+    }
+
+    return raiz;
+}
+
+static NoUsuario *removerNo(NoUsuario *raiz, int id, int *removido) {
+
+    if (raiz == NULL) {
+        return NULL;
+    }
+
+    if (id < raiz->usuario.id) {
+        raiz->esquerda = removerNo(raiz->esquerda, id, removido);
+    }
+    else if (id > raiz->usuario.id) {
+        raiz->direita = removerNo(raiz->direita, id, removido);
+    }
+    else {
+
+        *removido = 1;
+
+        if (raiz->esquerda == NULL && raiz->direita == NULL) {
+            free(raiz);
+            return NULL;
+        }
+
+        if (raiz->esquerda == NULL) {
+            NoUsuario *auxiliar = raiz->direita;
+            free(raiz);
+            return auxiliar;
+        }
+
+        if (raiz->direita == NULL) {
+            NoUsuario *auxiliar = raiz->esquerda;
+            free(raiz);
+            return auxiliar;
+        }
+
+        NoUsuario *auxiliar = encontrarMenor(raiz->direita);
+
+        raiz->usuario = auxiliar->usuario;
+
+        int removidoSucessor = 0;
+
+        raiz->direita = removerNo(
+            raiz->direita,
+            auxiliar->usuario.id,
+            &removidoSucessor
+        );
+    }
+
+    return raiz;
+}
+
+int removerUsuario(int id) {
+
+    if (id <= 0) {
+        return 0;
+    }
+
+    int removido = 0;
+
+    raizUsuarios = removerNo(raizUsuarios, id, &removido);
+
+    return removido;
+}
+
 static void liberarNo(NoUsuario *raiz) {
 
     if (raiz == NULL) {

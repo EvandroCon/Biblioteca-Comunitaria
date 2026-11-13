@@ -14,6 +14,7 @@ typedef struct {
 int cadastrarUsuario(Usuario usuario);
 void inicializarUsuarios(void);
 int buscarUsuario(int id, Usuario *usuarioEncontrado);
+int removerUsuario(int id);
 void liberarUsuarios(void);
 
 #endif //BIBLIOTECA_COMUNITARIA_USUARIO_H
