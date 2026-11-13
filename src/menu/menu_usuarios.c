@@ -38,7 +38,7 @@ void menuUsuarios() {
             break;
 
         case 4:
-            printf("\nListagem de usuario");
+            menuListarUsuarios();
             break;
 
         case 0:
@@ -148,5 +148,18 @@ void menuRemoverUsuario() {
         printf("\nUsuario removido com sucesso!\n");
     } else {
         printf("\nNao foi possivel remover o usuario.\n");
+    }
+}
+
+void menuListarUsuarios() {
+
+    printf("\n--- LISTA DE USUARIOS ---\n\n");
+
+    int total = listarUsuarios();
+
+    if (total == 0) {
+        printf("Nenhum usuario cadastrado.\n");
+    } else {
+        printf("\nTotal: %d usuario(s)\n", total);
     }
 }
