@@ -34,7 +34,7 @@ void menuUsuarios() {
             break;
 
         case 3:
-            printf("\nRemocao de usuario");
+            menuRemoverUsuario();
             break;
 
         case 4:
@@ -116,4 +116,37 @@ void menuBuscarUsuario() {
     printf("Codigo: %d\n", usuario.id);
     printf("Nome: %s\n", usuario.nome);
     printf("E-mail: %s\n", usuario.email);
+}
+
+void menuRemoverUsuario() {
+
+    int id;
+    Usuario usuario;
+    char resposta[10];
+
+    printf("\n--- REMOVER USUARIO ---\n");
+
+    if (!lerInt("Codigo: ", &id) || id <= 0) {
+        printf("\nErro: o codigo deve ser um numero positivo!\n");
+        return;
+    }
+
+    if (!buscarUsuario(id, &usuario)) {
+        printf("\nUsuario nao encontrado.\n");
+        return;
+    }
+
+    printf("\nUsuario encontrado: %d - %s (%s)\n", usuario.id, usuario.nome, usuario.email);
+    lerString("Confirma a remocao? (s/n): ", resposta, sizeof resposta);
+
+    if (resposta[0] != 's' && resposta[0] != 'S') {
+        printf("\nRemocao cancelada.\n");
+        return;
+    }
+
+    if (removerUsuario(id)) {
+        printf("\nUsuario removido com sucesso!\n");
+    } else {
+        printf("\nNao foi possivel remover o usuario.\n");
+    }
 }

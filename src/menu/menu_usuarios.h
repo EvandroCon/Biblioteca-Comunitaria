@@ -3,6 +3,7 @@
 
 void menuUsuarios();
 void menuCadastrarUsuario();
+void menuRemoverUsuario();
 void menuBuscarUsuario();
 
 #endif //BIBLIOTECA_COMUNITARIA_MENU_USUARIOS_H
