@@ -15,6 +15,7 @@ int cadastrarUsuario(Usuario usuario);
 void inicializarUsuarios(void);
 int buscarUsuario(int id, Usuario *usuarioEncontrado);
 int removerUsuario(int id);
+int listarUsuarios(void);
 void liberarUsuarios(void);
 
 #endif //BIBLIOTECA_COMUNITARIA_USUARIO_H

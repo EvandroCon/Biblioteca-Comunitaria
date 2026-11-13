@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "usuario.h"
+#include <stdio.h>
+
 
 typedef struct NoUsuario {
     Usuario usuario;
@@ -163,6 +165,23 @@ int removerUsuario(int id) {
     raizUsuarios = removerNo(raizUsuarios, id, &removido);
 
     return removido;
+}
+
+static int listarNo(const NoUsuario *raiz) {
+
+    if (raiz == NULL) {
+        return 0;
+    }
+
+    int total = listarNo(raiz->esquerda);
+
+    printf("%d - %s (%s)\n", raiz->usuario.id, raiz->usuario.nome, raiz->usuario.email);
+
+    return total + 1 + listarNo(raiz->direita);
+}
+
+int listarUsuarios(void) {
+    return listarNo(raizUsuarios);
 }
 
 static void liberarNo(NoUsuario *raiz) {
