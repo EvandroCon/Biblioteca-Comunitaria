@@ -178,6 +178,15 @@ int cadastrarEmprestimo(Emprestimo emprestimo)
     return sucesso;
 }
 
+Emprestimo *buscarEmprestimo(int id) {
+    NoEmprestimo *atual = raizEmprestimos;
+    while (atual != NULL) {
+        if (id == atual->emprestimo.id) return &atual->emprestimo;
+        atual = id < atual->emprestimo.id ? atual->esquerda : atual->direita;
+    }
+    return NULL;
+}
+
 static void liberarNos(NoEmprestimo* no)
 {
     if (no == NULL) return;
