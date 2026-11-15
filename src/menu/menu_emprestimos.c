@@ -39,7 +39,7 @@ void menuEmprestimos() {
             break;
 
         case 4:
-            printf("\nListar emprestimos");
+            menuListarEmprestimos();
             break;
 
         case 0:
@@ -108,4 +108,19 @@ void menuBuscarEmprestimo(void) {
            e->id, e->livro_id, e->usuario_id, e->data_emprestimo);
     if (e->devolvido) printf("Data da devolucao: %s\n", e->data_devolucao);
     else printf("Situacao: em aberto\n");
+}
+
+void menuListarEmprestimos(void) {
+    printf("\n--- LISTA DE EMPRESTIMOS ---\n\n");
+
+    int total = listarEmprestimos();
+
+    if (total == 0)
+    {
+        printf("Nenhum emprestimo cadastrado.\n");
+    }
+    else
+    {
+        printf("\nTotal: %d emprestimo(s)\n", total);
+    }
 }

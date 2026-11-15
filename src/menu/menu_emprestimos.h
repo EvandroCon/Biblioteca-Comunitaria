@@ -4,4 +4,5 @@
 void menuEmprestimos();
 void menuCadastrarEmprestimo(void);
 void menuBuscarEmprestimo(void);
+void menuListarEmprestimos(void);
 #endif //BIBLIOTECA_COMUNITARIA_MENU_EMPRESTIMOS_H
