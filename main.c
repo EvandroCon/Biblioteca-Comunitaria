@@ -11,6 +11,8 @@ int main() {
     inicializarEmprestimos();
     menuPrincipal();
 
+    salvarLivros("data/livros.csv");
+
     liberarUsuarios();
     liberarLivros();
     liberarEmprestimos();

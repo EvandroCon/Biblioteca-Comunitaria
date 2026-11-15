@@ -177,3 +177,32 @@ void liberarLivros(void)
     inicioLivros = NULL;
     quantidadeLivros = 0;
 }
+
+int salvarLivros(const char *caminho)
+{
+    FILE *arquivo = fopen(caminho, "w");
+
+    if (arquivo == NULL)
+    {
+        return 0;
+    }
+
+    fprintf(arquivo, "id;titulo;autor;ano;quantidade\n");
+
+    NoLivro *atual = inicioLivros;
+
+    while (atual != NULL)
+    {
+        fprintf(arquivo, "%d;%s;%s;%d;%d\n",
+                atual->livro.id,
+                atual->livro.titulo,
+                atual->livro.autor,
+                atual->livro.ano,
+                atual->livro.quantidade);
+
+        atual = atual->proximo;
+    }
+
+    fclose(arquivo);
+    return 1;
+}
