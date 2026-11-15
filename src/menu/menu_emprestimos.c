@@ -15,7 +15,7 @@ void menuEmprestimos() {
         printf("\n");
 
         printf("\n1 - Cadastrar emprestimo\n");
-        printf("2 - Consultar emprestimo\n");
+        printf("2 - Buscar emprestimo\n");
         printf("3 - Registrar devolucao\n");
         printf("4 - Listar emprestimo\n");
         printf("0 - Voltar\n");
@@ -31,7 +31,7 @@ void menuEmprestimos() {
             menuCadastrarEmprestimo();
             break;
         case 2:
-            printf("\nConsulta de emprestimo");
+            menuBuscarEmprestimo();
             break;
 
         case 3:
@@ -91,4 +91,21 @@ void menuCadastrarEmprestimo(void) {
     }
     livro->quantidade--;
     printf("Emprestimo cadastrado. Exemplares disponiveis: %d\n", livro->quantidade);
+}
+
+void menuBuscarEmprestimo(void) {
+    int id;
+    if (!lerInt("Codigo do emprestimo: ", &id) || id <= 0) {
+        printf("Codigo invalido.\n");
+        return;
+    }
+    Emprestimo *e = buscarEmprestimo(id);
+    if (e == NULL) {
+        printf("Emprestimo nao encontrado.\n");
+        return;
+    }
+    printf("\nCodigo: %d\nLivro: %d\nUsuario: %d\nData do emprestimo: %s\n",
+           e->id, e->livro_id, e->usuario_id, e->data_emprestimo);
+    if (e->devolvido) printf("Data da devolucao: %s\n", e->data_devolucao);
+    else printf("Situacao: em aberto\n");
 }
