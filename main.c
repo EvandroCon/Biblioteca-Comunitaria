@@ -7,6 +7,9 @@
 int main() {
 
     inicializarLivros();
+
+    carregarLivros("data/livros.csv");
+    
     inicializarUsuarios();
     inicializarEmprestimos();
     menuPrincipal();

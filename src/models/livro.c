@@ -206,3 +206,44 @@ int salvarLivros(const char *caminho)
     fclose(arquivo);
     return 1;
 }
+
+int carregarLivros(const char *caminho)
+{
+    FILE *arquivo = fopen(caminho, "r");
+
+    if (arquivo == NULL)
+    {
+        return 0;
+    }
+
+    char linha[512];
+
+    if (fgets(linha, sizeof linha, arquivo) == NULL)
+    {
+        fclose(arquivo);
+        return 0;
+    }
+
+    int carregados = 0;
+
+    while (fgets(linha, sizeof linha, arquivo) != NULL)
+    {
+        Livro livro;
+
+        if (sscanf(linha, "%d;%99[^;];%99[^;];%d;%d",
+                   &livro.id,
+                   livro.titulo,
+                   livro.autor,
+                   &livro.ano,
+                   &livro.quantidade) == 5)
+        {
+            if (cadastrarLivro(livro))
+            {
+                carregados++;
+            }
+        }
+    }
+
+    fclose(arquivo);
+    return carregados;
+}
