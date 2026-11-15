@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "emprestimos.h"
 
+#include <stdlib.h>
+
 typedef struct NoEmprestimo {
     Emprestimo emprestimo;
     int altura;
@@ -65,4 +67,74 @@ static NoEmprestimo *rotacionarEsquerda(NoEmprestimo *raiz) {
     atualizarAltura(novaRaiz);
 
     return novaRaiz;
+}
+
+static NoEmprestimo *inserirAVL(NoEmprestimo *no, Emprestimo emprestimo, int *sucesso) {
+    if (no == NULL) {
+        NoEmprestimo *novo = malloc(sizeof *novo);
+
+        if (novo == NULL) {
+            *sucesso = 0;
+            return NULL;
+        }
+
+        novo->emprestimo = emprestimo;
+        novo->altura = 1;
+        novo->esquerda = NULL;
+        novo->direita = NULL;
+
+        *sucesso = 1;
+        return novo;
+    }
+
+    if (emprestimo.id < no->emprestimo.id) {
+        NoEmprestimo *filho =
+            inserirAVL(no->esquerda, emprestimo, sucesso);
+
+        if (!*sucesso) {
+            return no;
+        }
+
+        no->esquerda = filho;
+    } else if (emprestimo.id > no->emprestimo.id) {
+        NoEmprestimo *filho =
+            inserirAVL(no->direita, emprestimo, sucesso);
+
+        if (!*sucesso) {
+            return no;
+        }
+
+        no->direita = filho;
+    } else {
+        *sucesso = 0;
+        return no;
+    }
+
+    atualizarAltura(no);
+
+    int fator = fatorBalanceamento(no);
+
+    if (fator > 1 &&
+        emprestimo.id < no->esquerda->emprestimo.id) {
+        return rotacionarDireita(no);
+        }
+
+    if (fator < -1 &&
+        emprestimo.id > no->direita->emprestimo.id) {
+        return rotacionarEsquerda(no);
+        }
+
+    if (fator > 1 &&
+        emprestimo.id > no->esquerda->emprestimo.id) {
+        no->esquerda = rotacionarEsquerda(no->esquerda);
+        return rotacionarDireita(no);
+        }
+
+    if (fator < -1 &&
+        emprestimo.id < no->direita->emprestimo.id) {
+        no->direita = rotacionarDireita(no->direita);
+        return rotacionarEsquerda(no);
+        }
+
+    return no;
 }

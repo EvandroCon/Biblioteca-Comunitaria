@@ -6,10 +6,12 @@
 #define BIBLIOTECA_COMUNITARIA_EMPRESTIMOS_H
 
 typedef struct {
+    int id;
     int livro_id;
     int usuario_id;
     char data_emprestimo[100];
     char data_devolucao[100];
+    int devolvido;
 } Emprestimo;
 
 void inicializarEmprestimos(void);
