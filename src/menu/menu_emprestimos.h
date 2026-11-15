@@ -1,8 +1,7 @@
-//
-// Created by vando on 07/11/2026.
-//
-
 #ifndef BIBLIOTECA_COMUNITARIA_MENU_EMPRESTIMOS_H
 #define BIBLIOTECA_COMUNITARIA_MENU_EMPRESTIMOS_H
+
 void menuEmprestimos();
+void menuCadastrarEmprestimo(void);
+
 #endif //BIBLIOTECA_COMUNITARIA_MENU_EMPRESTIMOS_H

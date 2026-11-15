@@ -1,7 +1,7 @@
 //
 // Created by vando on 07/11/2026.
 //
-
+#include "menu_emprestimos.h"
 #include "menu_historico.h"
 #include "../utils/entrada.h"
 #include <stdio.h>
