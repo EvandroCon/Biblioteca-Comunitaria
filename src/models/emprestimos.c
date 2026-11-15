@@ -1,4 +1,6 @@
 #include "emprestimos.h"
+
+#include <stdio.h>
 #include <stdlib.h>
 
 typedef struct NoEmprestimo
@@ -185,6 +187,44 @@ Emprestimo *buscarEmprestimo(int id) {
         atual = id < atual->emprestimo.id ? atual->esquerda : atual->direita;
     }
     return NULL;
+}
+
+static void listarNos(const NoEmprestimo *atual, int *total)
+{
+    if (atual == NULL)
+    {
+        return;
+    }
+
+    listarNos(atual->esquerda, total);
+
+    printf("Codigo: %d - Livro: %d - Usuario: %d - ",
+           atual->emprestimo.id,
+           atual->emprestimo.livro_id,
+           atual->emprestimo.usuario_id);
+
+    if (atual->emprestimo.devolvido)
+    {
+        printf("Devolvido em: %s\n",
+               atual->emprestimo.data_devolucao);
+    }
+    else
+    {
+        printf("Emprestimo em aberto\n");
+    }
+
+    (*total)++;
+
+    listarNos(atual->direita, total);
+}
+
+int listarEmprestimos(void)
+{
+    int total = 0;
+
+    listarNos(raizEmprestimos, &total);
+
+    return total;
 }
 
 static void liberarNos(NoEmprestimo* no)

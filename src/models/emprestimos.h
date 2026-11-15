@@ -17,6 +17,7 @@ typedef struct {
 void inicializarEmprestimos(void);
 int cadastrarEmprestimo(Emprestimo emprestimo);
 Emprestimo *buscarEmprestimo(int id);
+int listarEmprestimos(void);
 void liberarEmprestimos(void);
 
 #endif //BIBLIOTECA_COMUNITARIA_EMPRESTIMOS_H
