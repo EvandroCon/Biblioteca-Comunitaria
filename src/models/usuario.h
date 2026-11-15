@@ -5,7 +5,8 @@
 #ifndef BIBLIOTECA_COMUNITARIA_USUARIO_H
 #define BIBLIOTECA_COMUNITARIA_USUARIO_H
 
-typedef struct {
+typedef struct
+{
     int id;
     char nome[100];
     char email[100];
@@ -13,7 +14,7 @@ typedef struct {
 
 int cadastrarUsuario(Usuario usuario);
 void inicializarUsuarios(void);
-int buscarUsuario(int id, Usuario *usuarioEncontrado);
+int buscarUsuario(int id, Usuario* usuarioEncontrado);
 int removerUsuario(int id);
 int listarUsuarios(void);
 void liberarUsuarios(void);

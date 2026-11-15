@@ -1,7 +1,8 @@
 #ifndef BIBLIOTECA_COMUNITARIA_LIVRO_H
 #define BIBLIOTECA_COMUNITARIA_LIVRO_H
 
-typedef struct {
+typedef struct
+{
     int id;
     char titulo[100];
     char autor[100];
@@ -12,7 +13,7 @@ typedef struct {
 
 void inicializarLivros(void);
 int cadastrarLivro(Livro livro);
-Livro *buscarLivroPorId(int id);
+Livro* buscarLivroPorId(int id);
 int removerLivro(int id);
 int listarLivros(void);
 void liberarLivros(void);

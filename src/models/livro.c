@@ -5,63 +5,77 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct NoLivro {
+typedef struct NoLivro
+{
     Livro livro;
-    struct NoLivro *proximo;
+    struct NoLivro* proximo;
 } NoLivro;
 
-static NoLivro *inicioLivros = NULL;
+static NoLivro* inicioLivros = NULL;
 
 static int quantidadeLivros = 0;
 
-void inicializarLivros(void) {
+void inicializarLivros(void)
+{
     inicioLivros = NULL;
     quantidadeLivros = 0;
 }
 
-static int compararTitulos(const char *a, const char *b) {
-    int i =0;
-    while (a[i] != '\0' && b[i] != '\0') {
-        int ca = tolower((unsigned char) a[i]);
-        int cb = tolower((unsigned char) b[i]);
+static int compararTitulos(const char* a, const char* b)
+{
+    int i = 0;
+    while (a[i] != '\0' && b[i] != '\0')
+    {
+        int ca = tolower((unsigned char)a[i]);
+        int cb = tolower((unsigned char)b[i]);
 
-        if (ca != cb) {    //As letras sao diferentes?
+        if (ca != cb)
+        {
+            //As letras sao diferentes?
             return ca - cb; //A subtracao diz quem vem primeiro
         }
         i++;
     }
-    return tolower((unsigned char) a[i]) - tolower((unsigned char) b[i]);
+    return tolower((unsigned char)a[i]) - tolower((unsigned char)b[i]);
 }
 
-int cadastrarLivro(Livro livro) {
-
-    if (livro.quantidade < 0) {
+int cadastrarLivro(Livro livro)
+{
+    if (livro.quantidade < 0)
+    {
         return 0;
     }
 
-    if (livro.id <= 0) {
+    if (livro.id <= 0)
+    {
         return 0;
     }
 
-    NoLivro *atual = inicioLivros;
-    NoLivro *anteriorPosicao = NULL;
+    NoLivro* atual = inicioLivros;
+    NoLivro* anteriorPosicao = NULL;
     int posicaoEncontrada = 0;
 
-    while (atual != NULL) {
-
-        if (atual->livro.id == livro.id) {
+    while (atual != NULL)
+    {
+        if (atual->livro.id == livro.id)
+        {
             return 0;
         }
 
         if (strcmp(atual->livro.titulo, livro.titulo) == 0 &&
-            strcmp(atual->livro.autor, livro.autor) == 0) {
+            strcmp(atual->livro.autor, livro.autor) == 0)
+        {
             return 0;
-            }
+        }
 
-        if (!posicaoEncontrada) {
-            if (compararTitulos(livro.titulo, atual->livro.titulo) < 0) {
+        if (!posicaoEncontrada)
+        {
+            if (compararTitulos(livro.titulo, atual->livro.titulo) < 0)
+            {
                 posicaoEncontrada = 1;
-            } else {
+            }
+            else
+            {
                 anteriorPosicao = atual;
             }
         }
@@ -69,17 +83,21 @@ int cadastrarLivro(Livro livro) {
         atual = atual->proximo;
     }
 
-    NoLivro *novo = malloc(sizeof(NoLivro));
-    if (novo == NULL) {
+    NoLivro* novo = malloc(sizeof(NoLivro));
+    if (novo == NULL)
+    {
         return 0;
     }
     novo->livro = livro;
 
     // Insere mantendo a ordem alfabetica por titulo
-    if (anteriorPosicao == NULL) {
+    if (anteriorPosicao == NULL)
+    {
         novo->proximo = inicioLivros;
         inicioLivros = novo;
-    } else {
+    }
+    else
+    {
         novo->proximo = anteriorPosicao->proximo;
         anteriorPosicao->proximo = novo;
     }
@@ -88,11 +106,14 @@ int cadastrarLivro(Livro livro) {
     return 1;
 }
 
-Livro *buscarLivroPorId(int id) {
-    NoLivro *atual = inicioLivros;
+Livro* buscarLivroPorId(int id)
+{
+    NoLivro* atual = inicioLivros;
 
-    while (atual != NULL) {
-        if (atual->livro.id == id) {
+    while (atual != NULL)
+    {
+        if (atual->livro.id == id)
+        {
             return &atual->livro;
         }
         atual = atual->proximo;
@@ -100,17 +121,21 @@ Livro *buscarLivroPorId(int id) {
     return NULL;
 }
 
-int removerLivro(int id) {
-    NoLivro *atual = inicioLivros;
-    NoLivro *anterior = NULL;
+int removerLivro(int id)
+{
+    NoLivro* atual = inicioLivros;
+    NoLivro* anterior = NULL;
 
-    while (atual != NULL) {
-
-        if (atual->livro.id == id) {
-
-            if (anterior == NULL) {
+    while (atual != NULL)
+    {
+        if (atual->livro.id == id)
+        {
+            if (anterior == NULL)
+            {
                 inicioLivros = atual->proximo;
-            } else {
+            }
+            else
+            {
                 anterior->proximo = atual->proximo;
             }
 
@@ -126,10 +151,12 @@ int removerLivro(int id) {
     return 0;
 }
 
-int listarLivros(void) {
-    NoLivro *atual = inicioLivros;
+int listarLivros(void)
+{
+    NoLivro* atual = inicioLivros;
 
-    while (atual != NULL) {
+    while (atual != NULL)
+    {
         printf("%d - %s\n", atual->livro.id, atual->livro.titulo);
         atual = atual->proximo;
     }
@@ -137,11 +164,13 @@ int listarLivros(void) {
     return quantidadeLivros;
 }
 
-void liberarLivros(void) {
-    NoLivro *atual = inicioLivros;
+void liberarLivros(void)
+{
+    NoLivro* atual = inicioLivros;
 
-    while (atual != NULL) {
-        NoLivro *proximo = atual->proximo;
+    while (atual != NULL)
+    {
+        NoLivro* proximo = atual->proximo;
         free(atual);
         atual = proximo;
     }

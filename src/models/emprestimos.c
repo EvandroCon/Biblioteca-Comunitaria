@@ -1,5 +1,5 @@
 #include "emprestimos.h"
-
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -168,7 +168,8 @@ int cadastrarEmprestimo(Emprestimo emprestimo)
     if (emprestimo.id <= 0 ||
         emprestimo.livro_id <= 0 ||
         emprestimo.usuario_id <= 0 ||
-        emprestimo.data_emprestimo[0] == '\0') {
+        emprestimo.data_emprestimo[0] == '\0')
+    {
         return 0;
     }
 
@@ -180,16 +181,18 @@ int cadastrarEmprestimo(Emprestimo emprestimo)
     return sucesso;
 }
 
-Emprestimo *buscarEmprestimo(int id) {
-    NoEmprestimo *atual = raizEmprestimos;
-    while (atual != NULL) {
+Emprestimo* buscarEmprestimo(int id)
+{
+    NoEmprestimo* atual = raizEmprestimos;
+    while (atual != NULL)
+    {
         if (id == atual->emprestimo.id) return &atual->emprestimo;
         atual = id < atual->emprestimo.id ? atual->esquerda : atual->direita;
     }
     return NULL;
 }
 
-static void listarNos(const NoEmprestimo *atual, int *total)
+static void listarNos(const NoEmprestimo* atual, int* total)
 {
     if (atual == NULL)
     {
@@ -225,6 +228,18 @@ int listarEmprestimos(void)
     listarNos(raizEmprestimos, &total);
 
     return total;
+}
+
+int registrarDevolucao(int id, const char* data_devolucao)
+{
+    Emprestimo* emprestimo = buscarEmprestimo(id);
+    if (emprestimo == NULL || emprestimo->devolvido || data_devolucao == NULL ||
+        data_devolucao[0] == '\0')
+        return 0;
+    strncpy(emprestimo->data_devolucao, data_devolucao, TAMANHO_DATA - 1);
+    emprestimo->data_devolucao[TAMANHO_DATA - 1] = '\0';
+    emprestimo->devolvido = 1;
+    return 1;
 }
 
 static void liberarNos(NoEmprestimo* no)

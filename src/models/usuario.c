@@ -4,25 +4,28 @@
 #include <stdio.h>
 
 
-typedef struct NoUsuario {
+typedef struct NoUsuario
+{
     Usuario usuario;
-    struct NoUsuario *esquerda;
-    struct NoUsuario *direita;
+    struct NoUsuario* esquerda;
+    struct NoUsuario* direita;
 } NoUsuario;
 
-static NoUsuario *raizUsuarios = NULL;
+static NoUsuario* raizUsuarios = NULL;
 
-void inicializarUsuarios(void) {
+void inicializarUsuarios(void)
+{
     raizUsuarios = NULL;
 }
 
-static NoUsuario *inserirUsuario(NoUsuario *raiz, Usuario usuario) {
+static NoUsuario* inserirUsuario(NoUsuario* raiz, Usuario usuario)
+{
+    if (raiz == NULL)
+    {
+        NoUsuario* novo = malloc(sizeof(NoUsuario));
 
-    if (raiz == NULL) {
-
-        NoUsuario *novo = malloc(sizeof(NoUsuario));
-
-        if (novo == NULL) {
+        if (novo == NULL)
+        {
             return NULL;
         }
 
@@ -33,35 +36,42 @@ static NoUsuario *inserirUsuario(NoUsuario *raiz, Usuario usuario) {
         return novo;
     }
 
-    if (usuario.id < raiz->usuario.id) {
+    if (usuario.id < raiz->usuario.id)
+    {
         raiz->esquerda = inserirUsuario(raiz->esquerda, usuario);
     }
-    else if (usuario.id > raiz->usuario.id) {
+    else if (usuario.id > raiz->usuario.id)
+    {
         raiz->direita = inserirUsuario(raiz->direita, usuario);
     }
 
     return raiz;
 }
 
-int cadastrarUsuario(Usuario usuario) {
-
+int cadastrarUsuario(Usuario usuario)
+{
     if (usuario.id <= 0 ||
         strlen(usuario.nome) == 0 ||
-        strlen(usuario.email) == 0) {
+        strlen(usuario.email) == 0)
+    {
         return 0;
-        }
+    }
 
-    NoUsuario *atual = raizUsuarios;
+    NoUsuario* atual = raizUsuarios;
 
-    while (atual != NULL) {
-
-        if (usuario.id == atual->usuario.id) {
+    while (atual != NULL)
+    {
+        if (usuario.id == atual->usuario.id)
+        {
             return 0;
         }
 
-        if (usuario.id < atual->usuario.id) {
+        if (usuario.id < atual->usuario.id)
+        {
             atual = atual->esquerda;
-        } else {
+        }
+        else
+        {
             atual = atual->direita;
         }
     }
@@ -71,24 +81,29 @@ int cadastrarUsuario(Usuario usuario) {
     return 1;
 }
 
-int buscarUsuario(int id, Usuario *usuarioEncontrado) {
-
-    if (id <= 0 || usuarioEncontrado == NULL) {
+int buscarUsuario(int id, Usuario* usuarioEncontrado)
+{
+    if (id <= 0 || usuarioEncontrado == NULL)
+    {
         return 0;
     }
 
-    NoUsuario *atual = raizUsuarios;
+    NoUsuario* atual = raizUsuarios;
 
-    while (atual != NULL) {
-
-        if (id == atual->usuario.id) {
+    while (atual != NULL)
+    {
+        if (id == atual->usuario.id)
+        {
             *usuarioEncontrado = atual->usuario;
             return 1;
         }
 
-        if (id < atual->usuario.id) {
+        if (id < atual->usuario.id)
+        {
             atual = atual->esquerda;
-        } else {
+        }
+        else
+        {
             atual = atual->direita;
         }
     }
@@ -96,49 +111,56 @@ int buscarUsuario(int id, Usuario *usuarioEncontrado) {
     return 0;
 }
 
-static NoUsuario *encontrarMenor(NoUsuario *raiz) {
-
-    while (raiz->esquerda != NULL) {
+static NoUsuario* encontrarMenor(NoUsuario* raiz)
+{
+    while (raiz->esquerda != NULL)
+    {
         raiz = raiz->esquerda;
     }
 
     return raiz;
 }
 
-static NoUsuario *removerNo(NoUsuario *raiz, int id, int *removido) {
-
-    if (raiz == NULL) {
+static NoUsuario* removerNo(NoUsuario* raiz, int id, int* removido)
+{
+    if (raiz == NULL)
+    {
         return NULL;
     }
 
-    if (id < raiz->usuario.id) {
+    if (id < raiz->usuario.id)
+    {
         raiz->esquerda = removerNo(raiz->esquerda, id, removido);
     }
-    else if (id > raiz->usuario.id) {
+    else if (id > raiz->usuario.id)
+    {
         raiz->direita = removerNo(raiz->direita, id, removido);
     }
-    else {
-
+    else
+    {
         *removido = 1;
 
-        if (raiz->esquerda == NULL && raiz->direita == NULL) {
+        if (raiz->esquerda == NULL && raiz->direita == NULL)
+        {
             free(raiz);
             return NULL;
         }
 
-        if (raiz->esquerda == NULL) {
-            NoUsuario *auxiliar = raiz->direita;
+        if (raiz->esquerda == NULL)
+        {
+            NoUsuario* auxiliar = raiz->direita;
             free(raiz);
             return auxiliar;
         }
 
-        if (raiz->direita == NULL) {
-            NoUsuario *auxiliar = raiz->esquerda;
+        if (raiz->direita == NULL)
+        {
+            NoUsuario* auxiliar = raiz->esquerda;
             free(raiz);
             return auxiliar;
         }
 
-        NoUsuario *auxiliar = encontrarMenor(raiz->direita);
+        NoUsuario* auxiliar = encontrarMenor(raiz->direita);
 
         raiz->usuario = auxiliar->usuario;
 
@@ -154,9 +176,10 @@ static NoUsuario *removerNo(NoUsuario *raiz, int id, int *removido) {
     return raiz;
 }
 
-int removerUsuario(int id) {
-
-    if (id <= 0) {
+int removerUsuario(int id)
+{
+    if (id <= 0)
+    {
         return 0;
     }
 
@@ -167,9 +190,10 @@ int removerUsuario(int id) {
     return removido;
 }
 
-static int listarNo(const NoUsuario *raiz) {
-
-    if (raiz == NULL) {
+static int listarNo(const NoUsuario* raiz)
+{
+    if (raiz == NULL)
+    {
         return 0;
     }
 
@@ -180,13 +204,15 @@ static int listarNo(const NoUsuario *raiz) {
     return total + 1 + listarNo(raiz->direita);
 }
 
-int listarUsuarios(void) {
+int listarUsuarios(void)
+{
     return listarNo(raizUsuarios);
 }
 
-static void liberarNo(NoUsuario *raiz) {
-
-    if (raiz == NULL) {
+static void liberarNo(NoUsuario* raiz)
+{
+    if (raiz == NULL)
+    {
         return;
     }
 
@@ -195,7 +221,8 @@ static void liberarNo(NoUsuario *raiz) {
     free(raiz);
 }
 
-void liberarUsuarios(void) {
+void liberarUsuarios(void)
+{
     liberarNo(raizUsuarios);
     raizUsuarios = NULL;
 }
