@@ -12,4 +12,6 @@ typedef struct {
     char data_devolucao[100];
 } Emprestimo;
 
+void inicializarEmprestimos(void);
+
 #endif //BIBLIOTECA_COMUNITARIA_EMPRESTIMOS_H
