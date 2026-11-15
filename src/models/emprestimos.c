@@ -40,3 +40,29 @@ static int fatorBalanceamento(const NoEmprestimo *no) {
 
     return altura(no->esquerda) - altura(no->direita);
 }
+
+static NoEmprestimo *rotacionarDireita(NoEmprestimo *raiz) {
+    NoEmprestimo *novaRaiz = raiz->esquerda;
+    NoEmprestimo *subarvore = novaRaiz->direita;
+
+    novaRaiz->direita = raiz;
+    raiz->esquerda = subarvore;
+
+    atualizarAltura(raiz);
+    atualizarAltura(novaRaiz);
+
+    return novaRaiz;
+}
+
+static NoEmprestimo *rotacionarEsquerda(NoEmprestimo *raiz) {
+    NoEmprestimo *novaRaiz = raiz->direita;
+    NoEmprestimo *subarvore = novaRaiz->esquerda;
+
+    novaRaiz->esquerda = raiz;
+    raiz->direita = subarvore;
+
+    atualizarAltura(raiz);
+    atualizarAltura(novaRaiz);
+
+    return novaRaiz;
+}
