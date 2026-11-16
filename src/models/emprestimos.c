@@ -1,7 +1,11 @@
+#include "livro.h"
+#include "usuario.h"
 #include "emprestimos.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+
 
 typedef struct NoEmprestimo
 {
@@ -192,33 +196,38 @@ Emprestimo* buscarEmprestimo(int id)
     return NULL;
 }
 
-static void listarNos(const NoEmprestimo* atual, int* total)
+static void listarNos(const NoEmprestimo *no, int *total)
 {
-    if (atual == NULL)
+    if (no == NULL)
     {
         return;
     }
 
-    listarNos(atual->esquerda, total);
+    listarNos(no->esquerda, total);
 
-    printf("Codigo: %d - Livro: %d - Usuario: %d - ",
-           atual->emprestimo.id,
-           atual->emprestimo.livro_id,
-           atual->emprestimo.usuario_id);
+    const Emprestimo *e = &no->emprestimo;
+    Livro *livro = buscarLivroPorId(e->livro_id);
 
-    if (atual->emprestimo.devolvido)
+    Usuario usuario;
+    int usuarioEncontrado = buscarUsuario(e->usuario_id, &usuario);
+
+    printf("Emprestimo %d | Livro: %s | Usuario: %s | ",
+           e->id,
+           livro != NULL ? livro->titulo : "nao encontrado",
+           usuarioEncontrado ? usuario.nome : "nao encontrado");
+
+    if (e->devolvido)
     {
-        printf("Devolvido em: %s\n",
-               atual->emprestimo.data_devolucao);
+        printf("Devolvido em %s\n", e->data_devolucao);
     }
     else
     {
-        printf("Emprestimo em aberto\n");
+        printf("Em aberto\n");
     }
 
     (*total)++;
 
-    listarNos(atual->direita, total);
+    listarNos(no->direita, total);
 }
 
 int listarEmprestimos(void)
@@ -254,4 +263,124 @@ void liberarEmprestimos(void)
 {
     liberarNos(raizEmprestimos);
     raizEmprestimos = NULL;
+}
+
+static int salvarNos(FILE* arquivo, const NoEmprestimo* no)
+{
+    if (no == NULL)
+    {
+        return 1;
+    }
+
+    if (!salvarNos(arquivo, no->esquerda))
+    {
+        return 0;
+    }
+
+    const Emprestimo* e = &no->emprestimo;
+
+    if (fprintf(arquivo, "%d;%d;%d;%s;%s;%d\n",
+                e->id,
+                e->livro_id,
+                e->usuario_id,
+                e->data_emprestimo,
+                e->devolvido ? e->data_devolucao : "-",
+                e->devolvido) < 0)
+    {
+        return 0;
+    }
+
+    return salvarNos(arquivo, no->direita);
+}
+
+int salvarEmprestimos(const char* caminho)
+{
+    FILE* arquivo = fopen(caminho, "w");
+
+    if (arquivo == NULL)
+    {
+        perror("Erro ao abrir o arquivo de emprestimos");
+        return 0;
+    }
+
+    if (fprintf(arquivo,
+                "id;livro_id;usuario_id;data_emprestimo;"
+                "data_devolucao;devolvido\n") < 0 ||
+        !salvarNos(arquivo, raizEmprestimos))
+    {
+        fclose(arquivo);
+        return 0;
+    }
+
+    if (fclose(arquivo) != 0)
+    {
+        perror("Erro ao fechar o arquivo de emprestimos");
+        return 0;
+    }
+
+    return 1;
+}
+
+static int carregarLinhaEmprestimo(char *linha)
+{
+    Emprestimo emprestimo = {0};
+
+    int camposLidos = sscanf(
+        linha,
+        "%d;%d;%d;%19[^;];%19[^;];%d",
+        &emprestimo.id,
+        &emprestimo.livro_id,
+        &emprestimo.usuario_id,
+        emprestimo.data_emprestimo,
+        emprestimo.data_devolucao,
+        &emprestimo.devolvido
+    );
+
+    if (camposLidos != 6)
+    {
+        return 0;
+    }
+
+    if (strcmp(emprestimo.data_devolucao, "-") == 0)
+    {
+        emprestimo.data_devolucao[0] = '\0';
+    }
+
+    if (emprestimo.devolvido != 0 && emprestimo.devolvido != 1)
+    {
+        return 0;
+    }
+
+    return cadastrarEmprestimo(emprestimo);
+}
+
+int carregarEmprestimos(const char *caminho)
+{
+    FILE *arquivo = fopen(caminho, "r");
+
+    if (arquivo == NULL)
+    {
+        return 0;
+    }
+
+    char linha[256];
+
+    if (fgets(linha, sizeof linha, arquivo) == NULL)
+    {
+        fclose(arquivo);
+        return 0;
+    }
+
+    int totalCarregados = 0;
+
+    while (fgets(linha, sizeof linha, arquivo) != NULL)
+    {
+        if (carregarLinhaEmprestimo(linha))
+        {
+            totalCarregados++;
+        }
+    }
+
+    fclose(arquivo);
+    return totalCarregados;
 }

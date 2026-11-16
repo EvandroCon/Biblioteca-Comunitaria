@@ -1,7 +1,7 @@
 #ifndef BIBLIOTECA_COMUNITARIA_EMPRESTIMOS_H
 #define BIBLIOTECA_COMUNITARIA_EMPRESTIMOS_H
 
-#define TAMANHO_DATA 100
+#define TAMANHO_DATA 20
 
 typedef struct
 {
@@ -19,5 +19,8 @@ Emprestimo* buscarEmprestimo(int id);
 int listarEmprestimos(void);
 int registrarDevolucao(int id, const char *data_devolucao);;
 void liberarEmprestimos(void);
+
+int salvarEmprestimos(const char *caminho);
+int carregarEmprestimos(const char *caminho);
 
 #endif //BIBLIOTECA_COMUNITARIA_EMPRESTIMOS_H
