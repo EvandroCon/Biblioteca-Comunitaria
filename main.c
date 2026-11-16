@@ -9,12 +9,14 @@ int main() {
     inicializarLivros();
 
     carregarLivros("data/livros.csv");
-    
+    carregarUsuarios("data/usuarios.csv");
+
     inicializarUsuarios();
     inicializarEmprestimos();
     menuPrincipal();
 
     salvarLivros("data/livros.csv");
+    salvarUsuarios("data/usuarios.csv");
 
     liberarUsuarios();
     liberarLivros();

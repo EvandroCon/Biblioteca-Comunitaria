@@ -226,3 +226,100 @@ void liberarUsuarios(void)
     liberarNo(raizUsuarios);
     raizUsuarios = NULL;
 }
+
+//percorre a arvore binaria em ordem e grava cada usuario
+static int salvarNos(FILE *arquivo, const NoUsuario *no)
+{
+    if (no == NULL)
+    {
+        return 1;
+    }
+
+    if (!salvarNos(arquivo, no->esquerda))
+    {
+        return 0;
+    }
+
+    if (fprintf(arquivo, "%d;%s;%s\n",
+                no->usuario.id,
+                no->usuario.nome,
+                no->usuario.email) < 0)
+    {
+        return 0;
+    }
+
+    return salvarNos(arquivo, no->direita);
+}
+
+int salvarUsuarios(const char *caminho)
+{
+    FILE *arquivo = fopen(caminho, "w");
+
+    if (arquivo == NULL)
+    {
+        perror("Erro ao abrir o arquivo de usuarios");
+        return 0;
+    }
+
+    if (fprintf(arquivo, "id;nome;email\n") < 0 ||
+        !salvarNos(arquivo, raizUsuarios))
+    {
+        fclose(arquivo);
+        return 0;
+    }
+
+    if (fclose(arquivo) != 0)
+    {
+        perror("Erro ao fechar o arquivo de usuarios");
+        return 0;
+    }
+
+    return 1;
+}
+
+//interpreta uma linha do arquivo e cadastra o usuario
+static int carregarLinhaUsuario(char *linha)
+{
+    Usuario usuario;
+
+    if (sscanf(linha, "%d;%99[^;];%99[^\r\n]",
+               &usuario.id,
+               usuario.nome,
+               usuario.email) != 3)
+    {
+        return 0;
+    }
+
+    return cadastrarUsuario(usuario);
+}
+
+int carregarUsuarios(const char *caminho)
+{
+    FILE *arquivo = fopen(caminho, "r");
+
+    if (arquivo == NULL)
+    {
+        return 0;
+    }
+
+    char linha[256];
+
+    if (fgets(linha, sizeof linha, arquivo) == NULL)
+    {
+        fclose(arquivo);
+        return 0;
+    }
+
+    int totalCarregados = 0;
+
+    while (fgets(linha, sizeof linha, arquivo) != NULL)
+    {
+        if (carregarLinhaUsuario(linha))
+        {
+            totalCarregados++;
+        }
+    }
+
+    fclose(arquivo);
+    return totalCarregados;
+}
