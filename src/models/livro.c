@@ -178,20 +178,20 @@ void liberarLivros(void)
     quantidadeLivros = 0;
 }
 
-int salvarLivros(const char *caminho)
+int salvarLivros(const char *caminho) //Recebe o caminho do arquivo
 {
-    FILE *arquivo = fopen(caminho, "w");
+    FILE *arquivo = fopen(caminho, "w"); //Abre o arquivo para escrita
 
-    if (arquivo == NULL)
+    if (arquivo == NULL) //Verifica se a abertura falhou
     {
         return 0;
     }
 
-    fprintf(arquivo, "id;titulo;autor;ano;quantidade\n");
+    fprintf(arquivo, "id;titulo;autor;ano;quantidade\n"); //Escreve o cabeçalho
 
-    NoLivro *atual = inicioLivros;
+    NoLivro *atual = inicioLivros; //Começa pelo primeiro livro
 
-    while (atual != NULL)
+    while (atual != NULL) //Percorre a lista até o fim
     {
         fprintf(arquivo, "%d;%s;%s;%d;%d\n",
                 atual->livro.id,
@@ -200,10 +200,10 @@ int salvarLivros(const char *caminho)
                 atual->livro.ano,
                 atual->livro.quantidade);
 
-        atual = atual->proximo;
+        atual = atual->proximo; //Avança para o próximo nó
     }
 
-    fclose(arquivo);
+    fclose(arquivo); //Fecha o arquivo e informa sucesso
     return 1;
 }
 

@@ -88,9 +88,19 @@ void menuCadastrarLivro() {
         return;
     }
 
-    if (cadastrarLivro(livro)) {
-        printf("\nLivro cadastrado com sucesso!\n");
-    } else {
+    if (cadastrarLivro(livro))
+    {
+        if (salvarLivros("data/livros.csv"))
+        {
+            printf("\nLivro cadastrado e salvo com sucesso!\n");
+        }
+        else
+        {
+            printf("\nLivro cadastrado, mas houve erro ao salvar o arquivo.\n");
+        }
+    }
+    else
+    {
         printf("\nNao foi possivel cadastrar, livro ja cadastrado.\n");
     }
 }
@@ -132,9 +142,15 @@ void menuRemoverLivro() {
         return;
     }
 
-    if (removerLivro(id)) {
-        printf("\nLivro removido com sucesso!\n");
-    } else {
+    if (removerLivro(id))
+    {
+        if (salvarLivros("data/livros.csv"))
+            printf("\nLivro removido e arquivo atualizado.\n");
+        else
+            printf("\nLivro removido, mas houve erro ao salvar o arquivo.\n");
+    }
+    else
+    {
         printf("\nLivro nao encontrado.\n");
     }
 }
