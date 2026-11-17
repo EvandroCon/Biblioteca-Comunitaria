@@ -88,9 +88,15 @@ void menuCadastrarUsuario() {
         return;
     }
 
-    if (cadastrarUsuario(usuario)) {
-        printf("\nUsuario cadastrado com sucesso!\n");
-    } else {
+    if (cadastrarUsuario(usuario))
+    {
+        if (salvarUsuarios("data/usuarios.csv"))
+            printf("\nUsuario cadastrado e arquivo atualizado.\n");
+        else
+            printf("\nUsuario cadastrado, mas houve erro ao salvar o arquivo.\n");
+    }
+    else
+    {
         printf("\nNao foi possivel cadastrar, codigo ja cadastrado.\n");
     }
 }
@@ -144,9 +150,15 @@ void menuRemoverUsuario() {
         return;
     }
 
-    if (removerUsuario(id)) {
-        printf("\nUsuario removido com sucesso!\n");
-    } else {
+    if (removerUsuario(id))
+    {
+        if (salvarUsuarios("data/usuarios.csv"))
+            printf("\nUsuario removido e arquivo atualizado.\n");
+        else
+            printf("\nUsuario removido, mas houve erro ao salvar o arquivo.\n");
+    }
+    else
+    {
         printf("\nNao foi possivel remover o usuario.\n");
     }
 }
