@@ -101,7 +101,20 @@ void menuCadastrarEmprestimo(void)
         return;
     }
     livro->quantidade--;
-    printf("Emprestimo cadastrado. Exemplares disponiveis: %d\n", livro->quantidade);
+
+    int emprestimosSalvos = salvarEmprestimos("data/emprestimos.csv");
+    int livrosSalvos = salvarLivros("data/livros.csv");
+
+    if (!emprestimosSalvos || !livrosSalvos)
+    {
+        printf("Emprestimo cadastrado, mas houve erro ao salvar um ou mais arquivos.\n");
+    }
+    else
+    {
+        printf("Emprestimo cadastrado e arquivos atualizados.\n");
+    }
+
+    printf("Exemplares disponiveis: %d\n", livro->quantidade);
 }
 
 void menuBuscarEmprestimo(void)
@@ -169,8 +182,13 @@ void menuDevolverLivro(void)
     int livroId = e->livro_id;
     if (registrarDevolucao(id, data))
     {
-        Livro* livro = buscarLivroPorId(livroId);
-        if (livro != NULL) livro->quantidade++;
+        Livro *livro = buscarLivroPorId(livroId);
+        if (livro != NULL)
+            livro->quantidade++;
+
+        if (!salvarEmprestimos("data/emprestimos.csv"))
+            printf("Aviso: devolucao registrada, mas houve erro ao salvar emprestimos.\n");
+
         printf("Devolucao registrada.\n");
     }
 }
