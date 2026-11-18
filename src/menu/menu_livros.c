@@ -90,7 +90,7 @@ void menuCadastrarLivro() {
 
     if (cadastrarLivro(livro))
     {
-        if (salvarLivros("data/livros.csv"))
+        if (salvarLivros())
         {
             printf("\nLivro cadastrado e salvo com sucesso!\n");
         }
@@ -144,7 +144,7 @@ void menuRemoverLivro() {
 
     if (removerLivro(id))
     {
-        if (salvarLivros("data/livros.csv"))
+        if (salvarLivros())
             printf("\nLivro removido e arquivo atualizado.\n");
         else
             printf("\nLivro removido, mas houve erro ao salvar o arquivo.\n");

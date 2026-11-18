@@ -17,6 +17,8 @@ typedef struct NoEmprestimo
 
 static NoEmprestimo* raizEmprestimos = NULL;
 
+static const char *caminho = "data/emprestimos.csv";
+
 void inicializarEmprestimos(void)
 {
     raizEmprestimos = NULL;
@@ -293,7 +295,7 @@ static int salvarNos(FILE* arquivo, const NoEmprestimo* no)
     return salvarNos(arquivo, no->direita);
 }
 
-int salvarEmprestimos(const char* caminho)
+int salvarEmprestimos(void)
 {
     FILE* arquivo = fopen(caminho, "w");
 
@@ -354,7 +356,7 @@ static int carregarLinhaEmprestimo(char *linha)
     return cadastrarEmprestimo(emprestimo);
 }
 
-int carregarEmprestimos(const char *caminho)
+int carregarEmprestimos(void)
 {
     FILE *arquivo = fopen(caminho, "r");
 

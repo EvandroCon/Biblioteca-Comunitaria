@@ -18,7 +18,7 @@ int removerLivro(int id);
 int listarLivros(void);
 void liberarLivros(void);
 
-int salvarLivros(const char *caminho);
-int carregarLivros(const char *caminho);
+int salvarLivros(void);
+int carregarLivros(void);
 
 #endif //BIBLIOTECA_COMUNITARIA_LIVRO_H

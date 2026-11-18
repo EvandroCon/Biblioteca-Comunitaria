@@ -90,7 +90,7 @@ void menuCadastrarUsuario() {
 
     if (cadastrarUsuario(usuario))
     {
-        if (salvarUsuarios("data/usuarios.csv"))
+        if (salvarUsuarios())
             printf("\nUsuario cadastrado e arquivo atualizado.\n");
         else
             printf("\nUsuario cadastrado, mas houve erro ao salvar o arquivo.\n");
@@ -152,7 +152,7 @@ void menuRemoverUsuario() {
 
     if (removerUsuario(id))
     {
-        if (salvarUsuarios("data/usuarios.csv"))
+        if (salvarUsuarios())
             printf("\nUsuario removido e arquivo atualizado.\n");
         else
             printf("\nUsuario removido, mas houve erro ao salvar o arquivo.\n");

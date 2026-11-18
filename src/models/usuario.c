@@ -13,6 +13,8 @@ typedef struct NoUsuario
 
 static NoUsuario* raizUsuarios = NULL;
 
+static const char *caminho = "data/usuarios.csv";
+
 void inicializarUsuarios(void)
 {
     raizUsuarios = NULL;
@@ -251,7 +253,7 @@ static int salvarNos(FILE *arquivo, const NoUsuario *no)
     return salvarNos(arquivo, no->direita);
 }
 
-int salvarUsuarios(const char *caminho)
+int salvarUsuarios(void)
 {
     FILE *arquivo = fopen(caminho, "w");
 
@@ -293,7 +295,7 @@ static int carregarLinhaUsuario(char *linha)
     return cadastrarUsuario(usuario);
 }
 
-int carregarUsuarios(const char *caminho)
+int carregarUsuarios(void)
 {
     FILE *arquivo = fopen(caminho, "r");
 

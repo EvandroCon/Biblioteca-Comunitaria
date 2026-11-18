@@ -13,6 +13,8 @@ typedef struct NoLivro
 
 static NoLivro* inicioLivros = NULL;
 
+static const char *caminho = "data/livros.csv";
+
 static int quantidadeLivros = 0;
 
 void inicializarLivros(void)
@@ -178,8 +180,9 @@ void liberarLivros(void)
     quantidadeLivros = 0;
 }
 
-int salvarLivros(const char *caminho) //Recebe o caminho do arquivo
+int salvarLivros(void) //Recebe o caminho do arquivo
 {
+
     FILE *arquivo = fopen(caminho, "w"); //Abre o arquivo para escrita
 
     if (arquivo == NULL) //Verifica se a abertura falhou
@@ -207,8 +210,9 @@ int salvarLivros(const char *caminho) //Recebe o caminho do arquivo
     return 1;
 }
 
-int carregarLivros(const char *caminho)
+int carregarLivros(void)
 {
+
     FILE *arquivo = fopen(caminho, "r");
 
     if (arquivo == NULL)

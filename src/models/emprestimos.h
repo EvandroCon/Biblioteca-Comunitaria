@@ -20,7 +20,7 @@ int listarEmprestimos(void);
 int registrarDevolucao(int id, const char *data_devolucao);;
 void liberarEmprestimos(void);
 
-int salvarEmprestimos(const char *caminho);
-int carregarEmprestimos(const char *caminho);
+int salvarEmprestimos(void);
+int carregarEmprestimos(void);
 
 #endif //BIBLIOTECA_COMUNITARIA_EMPRESTIMOS_H

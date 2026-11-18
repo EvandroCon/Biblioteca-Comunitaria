@@ -7,21 +7,21 @@
 int main() {
 
     inicializarLivros();
-    carregarLivros("data/livros.csv");
+    carregarLivros();
 
 
     inicializarUsuarios();
-    carregarUsuarios("data/usuarios.csv");
+    carregarUsuarios();
 
 
     inicializarEmprestimos();
-    carregarEmprestimos("data/emprestimos.csv");
+    carregarEmprestimos();
 
     menuPrincipal();
 
-    salvarLivros("data/livros.csv");
-    salvarUsuarios("data/usuarios.csv");
-    salvarEmprestimos("data/emprestimos.csv");
+    salvarLivros();
+    salvarUsuarios();
+    salvarEmprestimos();
 
     liberarUsuarios();
     liberarLivros();

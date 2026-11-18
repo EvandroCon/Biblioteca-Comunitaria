@@ -102,8 +102,8 @@ void menuCadastrarEmprestimo(void)
     }
     livro->quantidade--;
 
-    int emprestimosSalvos = salvarEmprestimos("data/emprestimos.csv");
-    int livrosSalvos = salvarLivros("data/livros.csv");
+    int emprestimosSalvos = salvarEmprestimos();
+    int livrosSalvos = salvarLivros();
 
     if (!emprestimosSalvos || !livrosSalvos)
     {
@@ -186,7 +186,7 @@ void menuDevolverLivro(void)
         if (livro != NULL)
             livro->quantidade++;
 
-        if (!salvarEmprestimos("data/emprestimos.csv"))
+        if (!salvarEmprestimos())
             printf("Aviso: devolucao registrada, mas houve erro ao salvar emprestimos.\n");
 
         printf("Devolucao registrada.\n");

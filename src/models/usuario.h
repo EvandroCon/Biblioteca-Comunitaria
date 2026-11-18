@@ -19,7 +19,7 @@ int removerUsuario(int id);
 int listarUsuarios(void);
 void liberarUsuarios(void);
 
-int salvarUsuarios(const char *caminho);
-int carregarUsuarios(const char *caminho);
+int salvarUsuarios(void);
+int carregarUsuarios(void);
 
 #endif //BIBLIOTECA_COMUNITARIA_USUARIO_H
