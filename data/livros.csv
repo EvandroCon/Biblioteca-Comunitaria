@@ -1,4 +1,5 @@
 id;titulo;autor;ano;quantidade
+1;1984;George Orwell;1949;4
 8;A Condição Humana;André Malraux;1933;1
 13;A Espuma dos Dias;Boris Vian;1947;1
 19;Admirável Mundo Novo;Aldous Huxley;1932;1
@@ -6,7 +7,6 @@ id;titulo;autor;ano;quantidade
 10;As Vinhas da Ira;John Steinbeck;1039;1
 20;Asterix o Gaulês;René Goscinny e Albert Uderzo;1959;1
 2;Em Busca do tempo perdido;Marcel Proust;1913;4
-1;Mil Novecentos e Oitenta e Quatro;George Orwell;1949;4
 12;O Bosque das Ilusões Perdidas;Alain-Fournier;1913;3
 6;O Deserto dos T rtaros;Dino Buzzati;1940;5
 3;O Estrangeiro;Albert Camus;1942;1

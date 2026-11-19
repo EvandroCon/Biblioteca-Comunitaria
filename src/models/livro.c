@@ -251,3 +251,64 @@ int carregarLivros(void)
     fclose(arquivo);
     return carregados;
 }
+
+int atualizarLivro(int id, Livro novosDados)
+{
+    if (id <= 0 ||
+        novosDados.titulo[0] == '\0' ||
+        novosDados.autor[0] == '\0' ||
+        novosDados.ano <= 0 ||
+        novosDados.quantidade < 0)
+    {
+        return 0;
+    }
+
+    NoLivro *atual = inicioLivros;
+    NoLivro *anterior = NULL;
+
+    while (atual != NULL && atual->livro.id != id)
+    {
+        anterior = atual;
+        atual = atual->proximo;
+    }
+
+    if (atual == NULL)
+        return 0;
+
+    for (NoLivro *outro = inicioLivros; outro != NULL; outro = outro->proximo)
+    {
+        if (outro != atual &&
+            strcmp(outro->livro.titulo, novosDados.titulo) == 0 &&
+            strcmp(outro->livro.autor, novosDados.autor) == 0)
+        {
+            return 0;
+        }
+    }
+
+    if (anterior == NULL)
+        inicioLivros = atual->proximo;
+    else
+        anterior->proximo = atual->proximo;
+
+    atual->livro = novosDados;
+    atual->livro.id = id;
+
+    NoLivro *anteriorPosicao = NULL;
+    NoLivro *posicao = inicioLivros;
+
+    while (posicao != NULL &&
+           compararTitulos(atual->livro.titulo, posicao->livro.titulo) >= 0)
+    {
+        anteriorPosicao = posicao;
+        posicao = posicao->proximo;
+    }
+
+    atual->proximo = posicao;
+
+    if (anteriorPosicao == NULL)
+        inicioLivros = atual;
+    else
+        anteriorPosicao->proximo = atual;
+
+    return 1;
+}

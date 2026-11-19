@@ -20,6 +20,7 @@ void menuLivros() {
         printf("2 - Buscar livro\n");
         printf("3 - Remover livro\n");
         printf("4 - Listar livros\n");
+        printf("5 - Atualizar livro\n");
         printf("0 - Voltar\n");
 
         if (!lerInt("\nEscolha uma opcao: ", &opcao)) {
@@ -44,7 +45,9 @@ void menuLivros() {
         case 4:
             menuListarLivros();
             break;
-
+        case 5:
+            menuAtualizarLivro();
+            break;
         case 0:
             printf("\nVoltando ao menu principal\n");
             break;
@@ -166,4 +169,71 @@ void menuListarLivros() {
     } else {
         printf("\nTotal: %d livro(s)\n", total);
     }
+}
+
+void menuAtualizarLivro(void)
+{
+    int id;
+
+    printf("\n--- ATUALIZAR LIVRO ---\n");
+
+    if (!lerInt("Codigo do livro: ", &id) || id <= 0)
+    {
+        printf("\nErro: o codigo deve ser um numero positivo!\n");
+        return;
+    }
+
+    Livro *existente = buscarLivroPorId(id);
+
+    if (existente == NULL)
+    {
+        printf("\nLivro nao encontrado.\n");
+        return;
+    }
+
+    Livro novosDados = *existente;
+
+    printf("\nLivro atual: %s - %s | Ano: %d | Quantidade: %d\n",
+           existente->titulo,
+           existente->autor,
+           existente->ano,
+           existente->quantidade);
+
+    lerString("Novo titulo: ", novosDados.titulo, sizeof novosDados.titulo);
+    if (novosDados.titulo[0] == '\0')
+    {
+        printf("\nErro: o titulo nao pode ficar vazio!\n");
+        return;
+    }
+
+    lerString("Novo autor: ", novosDados.autor, sizeof novosDados.autor);
+    if (novosDados.autor[0] == '\0')
+    {
+        printf("\nErro: o autor nao pode ficar vazio!\n");
+        return;
+    }
+
+    if (!lerInt("Novo ano: ", &novosDados.ano) || novosDados.ano <= 0)
+    {
+        printf("\nErro: o ano deve ser um numero positivo!\n");
+        return;
+    }
+
+    if (!lerInt("Nova quantidade: ", &novosDados.quantidade) ||
+        novosDados.quantidade < 0)
+    {
+        printf("\nErro: a quantidade deve ser um numero nao negativo!\n");
+        return;
+    }
+
+    if (!atualizarLivro(id, novosDados))
+    {
+        printf("\nNao foi possivel atualizar, verifique os dados ou se ja existe outro livro com esse titulo e autor.\n");
+        return;
+    }
+
+    if (salvarLivros())
+        printf("\nLivro atualizado e salvo com sucesso!\n");
+    else
+        printf("\nLivro atualizado, mas houve erro ao salvar o arquivo.\n");
 }

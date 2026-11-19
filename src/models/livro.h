@@ -21,4 +21,6 @@ void liberarLivros(void);
 int salvarLivros(void);
 int carregarLivros(void);
 
+int atualizarLivro(int id, Livro novosDados);
+
 #endif //BIBLIOTECA_COMUNITARIA_LIVRO_H
