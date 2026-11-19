@@ -3,7 +3,9 @@
 #include "usuario.h"
 #include <stdio.h>
 
-
+//os ids de usuario nao precisam ser em ordem crescente, até porque
+//se forem, como a arvore nao se balanceia, cada no vai para a direita
+//do anterior e a arvore vira uma lista
 typedef struct NoUsuario
 {
     Usuario usuario;
@@ -324,4 +326,34 @@ int carregarUsuarios(void)
 
     fclose(arquivo);
     return totalCarregados;
+}
+
+int atualizarUsuario(int id, Usuario novosDados)
+{
+    if (id <= 0 ||
+        novosDados.nome[0] == '\0' ||
+        novosDados.email[0] == '\0')
+    {
+        return 0;
+    }
+
+    NoUsuario* atual = raizUsuarios; //começa na raiz
+
+    while (atual != NULL && atual->usuario.id != id)
+    {
+        if (id < atual->usuario.id)
+            atual = atual->esquerda; //id procurado e menor: vai a esquerda
+        else
+            atual = atual->direita; //id procurado e maior: vai a direita
+    }
+
+    if (atual == NULL)
+    {
+        return 0;
+    }
+
+    atual->usuario = novosDados;
+    atual->usuario.id = id;
+
+    return 1;
 }

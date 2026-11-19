@@ -7,4 +7,5 @@ void menuRemoverUsuario();
 void menuBuscarUsuario();
 void menuListarUsuarios();
 
+void menuAtualizarUsuario();
 #endif //BIBLIOTECA_COMUNITARIA_MENU_USUARIOS_H

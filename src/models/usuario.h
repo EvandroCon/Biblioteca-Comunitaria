@@ -22,4 +22,5 @@ void liberarUsuarios(void);
 int salvarUsuarios(void);
 int carregarUsuarios(void);
 
+int atualizarUsuario(int id, Usuario novosDados);
 #endif //BIBLIOTECA_COMUNITARIA_USUARIO_H

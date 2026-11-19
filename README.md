@@ -49,12 +49,15 @@ Na pasta principal do projeto:
 cmake -S . -B build
 cmake --build build
 ./build/Biblioteca-Comunitaria
+
+Se não reconhecer os arquivos.csv: vá em Run > Edit Configurations,
+localize o campo Working directory e altere para $ProjectFileDir$
 ```
 
 ## Organização do repositório
 
 ```text
-.
+
 ??? data/                 # Arquivos CSV de livros, usuários e empréstimos
 ??? src/
 ?   ??? menu/             # Menus e interação com o usuário

@@ -175,3 +175,47 @@ void menuListarUsuarios() {
         printf("\nTotal: %d usuario(s)\n", total);
     }
 }
+
+void menuAtualizarUsuario(void) {
+
+    int id;
+    Usuario existente;
+
+    printf("\n--- ATUALIZAR USUARIO ---\n");
+
+    if (!lerInt("Codigo do usuario: ", &id) || id <= 0) {
+        printf("\nErro: o codigo deve ser um numero positivo!\n");
+        return;
+    }
+
+    if (!buscarUsuario(id, &existente)) {
+        printf("\nUsuario nao encontrado.\n");
+        return;
+    }
+
+    printf("\nUsuario atual: %s (%s)\n", existente.nome, existente.email);
+
+    Usuario novosDados = existente;
+
+    lerString("Novo nome: ", novosDados.nome, sizeof novosDados.nome);
+    if (strlen(novosDados.nome) == 0) {
+        printf("\nErro: o nome nao pode ficar vazio!\n");
+        return;
+    }
+
+    lerString("Novo e-mail: ", novosDados.email, sizeof novosDados.email);
+    if (!emailValido(novosDados.email)) {
+        printf("\nErro: e-mail invalido (use o formato nome@dominio.com)!\n");
+        return;
+    }
+
+    if (!atualizarUsuario(id, novosDados)) {
+        printf("\nNao foi possivel atualizar o usuario.\n");
+        return;
+    }
+
+    if (salvarUsuarios())
+        printf("\nUsuario atualizado e arquivo atualizado.\n");
+    else
+        printf("\nUsuario atualizado, mas houve erro ao salvar o arquivo.\n");
+}
