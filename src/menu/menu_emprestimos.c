@@ -183,12 +183,18 @@ void menuDevolverLivro(void)
     if (registrarDevolucao(id, data))
     {
         Livro *livro = buscarLivroPorId(livroId);
+
         if (livro != NULL)
             livro->quantidade++;
 
-        if (!salvarEmprestimos())
-            printf("Aviso: devolucao registrada, mas houve erro ao salvar emprestimos.\n");
+        int emprestimosSalvos =
+            salvarEmprestimos();
+        int livrosSalvos =
+            salvarLivros();
 
-        printf("Devolucao registrada.\n");
+        if (emprestimosSalvos && livrosSalvos)
+            printf("Devolucao registrada e arquivos atualizados.\n");
+        else
+            printf("Devolucao registrada, mas houve erro ao salvar um ou mais arquivos.\n");
     }
 }
