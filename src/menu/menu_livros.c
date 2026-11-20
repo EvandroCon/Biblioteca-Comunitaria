@@ -8,6 +8,7 @@
 
 #include "../models/livro.h"
 
+#include "../models/emprestimos.h"
 void menuLivros() {
     int opcao = -1;
 
@@ -142,6 +143,11 @@ void menuRemoverLivro() {
 
     if (!lerInt("Codigo: ", &id) || id <= 0) {
         printf("\nErro: o codigo deve ser um numero positivo!\n");
+        return;
+    }
+    if (livroTemEmprestimoEmAberto(id))
+    {
+        printf("Nao e possivel remover: o livro possui emprestimo em aberto.\n");
         return;
     }
 

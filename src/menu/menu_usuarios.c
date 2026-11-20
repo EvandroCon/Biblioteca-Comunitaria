@@ -4,6 +4,8 @@
 #include <string.h>
 #include "../models/usuario.h"
 
+#include "../models/emprestimos.h"
+
 void menuUsuarios() {
     int opcao = -1;
 
@@ -147,6 +149,11 @@ void menuRemoverUsuario() {
 
     if (resposta[0] != 's' && resposta[0] != 'S') {
         printf("\nRemocao cancelada.\n");
+        return;
+    }
+    if (usuarioTemEmprestimoEmAberto(id))
+    {
+        printf("Nao e possivel remover: o usuario possui emprestimo em aberto.\n");
         return;
     }
 

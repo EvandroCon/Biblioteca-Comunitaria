@@ -23,4 +23,6 @@ void liberarEmprestimos(void);
 int salvarEmprestimos(void);
 int carregarEmprestimos(void);
 
+int livroTemEmprestimoEmAberto(int livroId);
+int usuarioTemEmprestimoEmAberto(int usuarioId);
 #endif //BIBLIOTECA_COMUNITARIA_EMPRESTIMOS_H

@@ -5,8 +5,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-
 typedef struct NoEmprestimo
 {
     Emprestimo emprestimo;
@@ -385,4 +383,31 @@ int carregarEmprestimos(void)
 
     fclose(arquivo);
     return totalCarregados;
+}
+
+//a arvore e percorrida nos dois lados porque esta organizada pelo ID do emprestimo
+static int buscarEmprestimoAberto(const NoEmprestimo *no, int id, int procurarLivro) //1 procurar livro, 0 procurar usuario
+{
+    if (no == NULL)
+        return 0;
+
+    int idRelacionado = procurarLivro
+        ? no->emprestimo.livro_id
+        : no->emprestimo.usuario_id;
+
+    if (idRelacionado == id && !no->emprestimo.devolvido)
+        return 1;
+
+    return buscarEmprestimoAberto(no->esquerda, id, procurarLivro) ||
+           buscarEmprestimoAberto(no->direita, id, procurarLivro);
+}
+
+int livroTemEmprestimoEmAberto(int livroId)
+{
+    return buscarEmprestimoAberto(raizEmprestimos, livroId, 1); //usa 1 para indicar que a comparação deve ser feita com livro_id
+}
+
+int usuarioTemEmprestimoEmAberto(int usuarioId)
+{
+    return buscarEmprestimoAberto(raizEmprestimos, usuarioId, 0); //passa 0 para indicar que a busca deve comparar com usuario_id
 }
