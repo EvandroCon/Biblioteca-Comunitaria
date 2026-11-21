@@ -4,7 +4,7 @@
 #include "menu_livros.h"
 #include "menu_usuarios.h"
 #include "menu_emprestimos.h"
-#include "menu_historico.h"
+#include "menu_fila.h"
 #include "../utils/entrada.h"
 
 void menuPrincipal() {
@@ -18,7 +18,7 @@ void menuPrincipal() {
         printf("\n1 - Gerenciar Livros\n");
         printf("2 - Gerenciar usuarios\n");
         printf("3 - Gerenciar Emprestimos\n");
-        printf("4 - Historico de operacoes\n");
+        printf("4 - Gerenciar Fila\n");
         printf("0 - Sair\n");
 
         if (!lerInt("\nEscolha uma opcao: ", &opcao)) {
@@ -41,7 +41,7 @@ void menuPrincipal() {
                 break;
 
             case 4:
-                menuHistorico();
+                menuFilaEspera();
                 break;
 
             case 0:
