@@ -386,7 +386,7 @@ int carregarEmprestimos(void)
 }
 
 //a arvore e percorrida nos dois lados porque esta organizada pelo ID do emprestimo
-static int buscarEmprestimoAberto(const NoEmprestimo *no, int id, int procurarLivro) //1 procurar livro, 0 procurar usuario
+static int buscarEmprestimoAberto(const NoEmprestimo *no, int id, int procurarLivro) //ponteiro para o no da AVL que sera analisado. Na primeira chamada, eh a raiz; na recursao, eh um no filho.
 {
     if (no == NULL)
         return 0;
