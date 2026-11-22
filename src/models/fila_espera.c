@@ -61,3 +61,17 @@ int adicionarFilaEspera(int livro_id, int usuario_id)
 
     return novo->solicitacao.id;
 }
+
+
+void liberarFilaEspera(void)
+{
+    NoFila *atual = inicio;
+    while (atual != NULL)
+    {
+        NoFila *proximo = atual->proximo;
+        free(atual);
+        atual = proximo;
+    }
+    inicio = fim = NULL;
+    proximoId = 1;
+}

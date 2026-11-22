@@ -27,7 +27,7 @@ int main() {
     liberarUsuarios();
     liberarLivros();
     liberarEmprestimos();
-
+    liberarFilaEspera();
 
     return 0;
 }
