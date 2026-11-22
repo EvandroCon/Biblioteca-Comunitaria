@@ -5,4 +5,5 @@
 #ifndef BIBLIOTECA_COMUNITARIA_MENU_FILA_H
 #define BIBLIOTECA_COMUNITARIA_MENU_FILA_H
 void menuFilaEspera();
+void menuEntrarFila();
 #endif //BIBLIOTECA_COMUNITARIA_MENU_FILA_H
