@@ -1,7 +1,3 @@
-//
-// Created by vando on 21/11/2026.
-//
-
 #include "menu_fila_espera.h"
 #include "../utils/entrada.h"
 #include <stdio.h>
@@ -35,7 +31,7 @@ void menuFilaEspera()
             break;
 
         case 2:
-            printf("\nListar fila\n");
+            menuListarFila();
             break;
 
         case 3:
@@ -94,4 +90,16 @@ void menuEntrarFila()
     {
         printf("Pedido %d adicionado ao final da fila.\n", id);
     }
+}
+
+void menuListarFila()
+{
+    int livroId;
+    if (!lerInt("Codigo do livro (0 para todos): ", &livroId) || livroId < 0)
+    {
+        printf("Codigo invalido.\n");
+        return;
+    }
+    if (listarFilaEspera(livroId) == 0)
+        printf("Nenhum pedido encontrado.\n");
 }

@@ -62,6 +62,34 @@ int adicionarFilaEspera(int livro_id, int usuario_id)
     return novo->solicitacao.id;
 }
 
+int listarFilaEspera(int livro_id)
+{
+    int total = 0;
+    int posicao = 0;
+
+    for (NoFila *atual = inicio;
+         atual != NULL;
+         atual = atual->proximo)
+    {
+        if (livro_id > 0 &&
+            atual->solicitacao.livro_id != livro_id)
+        {
+            continue;
+        }
+
+        posicao++;
+
+        printf("Posicao %d - Pedido %d - Livro %d - Usuario %d\n",
+               posicao,
+               atual->solicitacao.id,
+               atual->solicitacao.livro_id,
+               atual->solicitacao.usuario_id);
+
+        total++;
+    }
+
+    return total;
+}
 
 void liberarFilaEspera(void)
 {
