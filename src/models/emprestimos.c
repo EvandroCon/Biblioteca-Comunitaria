@@ -15,7 +15,7 @@ typedef struct NoEmprestimo
 
 static NoEmprestimo* raizEmprestimos = NULL;
 
-static const char *caminho = "data/emprestimos.csv";
+static const char* caminho = "data/emprestimos.csv";
 
 void inicializarEmprestimos(void)
 {
@@ -196,7 +196,7 @@ Emprestimo* buscarEmprestimo(int id)
     return NULL;
 }
 
-static void listarNos(const NoEmprestimo *no, int *total)
+static void listarNos(const NoEmprestimo* no, int* total)
 {
     if (no == NULL)
     {
@@ -205,8 +205,8 @@ static void listarNos(const NoEmprestimo *no, int *total)
 
     listarNos(no->esquerda, total);
 
-    const Emprestimo *e = &no->emprestimo;
-    Livro *livro = buscarLivroPorId(e->livro_id);
+    const Emprestimo* e = &no->emprestimo;
+    Livro* livro = buscarLivroPorId(e->livro_id);
 
     Usuario usuario;
     int usuarioEncontrado = buscarUsuario(e->usuario_id, &usuario);
@@ -242,18 +242,32 @@ int listarEmprestimos(void)
 int registrarDevolucao(int id, const char* data_devolucao)
 {
     Emprestimo* emprestimo = buscarEmprestimo(id);
-    if (emprestimo == NULL || emprestimo->devolvido || data_devolucao == NULL ||
+
+    if (emprestimo == NULL ||
+        emprestimo->devolvido ||
+        data_devolucao == NULL ||
         data_devolucao[0] == '\0')
+    {
         return 0;
-    strncpy(emprestimo->data_devolucao, data_devolucao, TAMANHO_DATA - 1);
+    }
+
+    strncpy(emprestimo->data_devolucao,
+            data_devolucao,
+            TAMANHO_DATA - 1);
+
     emprestimo->data_devolucao[TAMANHO_DATA - 1] = '\0';
     emprestimo->devolvido = 1;
+
     return 1;
 }
 
-static void liberarNos(NoEmprestimo* no)
+static void liberarNos(NoEmprestimo *no)
 {
-    if (no == NULL) return;
+    if (no == NULL)
+    {
+        return;
+    }
+
     liberarNos(no->esquerda);
     liberarNos(no->direita);
     free(no);
@@ -321,7 +335,7 @@ int salvarEmprestimos(void)
     return 1;
 }
 
-static int carregarLinhaEmprestimo(char *linha)
+static int carregarLinhaEmprestimo(char* linha)
 {
     Emprestimo emprestimo = {0};
 
@@ -356,7 +370,7 @@ static int carregarLinhaEmprestimo(char *linha)
 
 int carregarEmprestimos(void)
 {
-    FILE *arquivo = fopen(caminho, "r");
+    FILE* arquivo = fopen(caminho, "r");
 
     if (arquivo == NULL)
     {
@@ -385,18 +399,33 @@ int carregarEmprestimos(void)
     return totalCarregados;
 }
 
-//a arvore e percorrida nos dois lados porque esta organizada pelo ID do emprestimo
-static int buscarEmprestimoAberto(const NoEmprestimo *no, int id, int procurarLivro) //ponteiro para o no da AVL que sera analisado. Na primeira chamada, eh a raiz; na recursao, eh um no filho.
+// a arvore e percorrida nos dois lados porque esta organizada pelo ID do emprestimo
+static int buscarEmprestimoAberto(
+    const NoEmprestimo *no,
+    int id,
+    int procurarLivro)
 {
+    // ponteiro para o no da AVL que sera analisado. Na primeira chamada, eh a raiz; na recursao, eh um no filho.
     if (no == NULL)
+    {
         return 0;
+    }
 
-    int idRelacionado = procurarLivro
-        ? no->emprestimo.livro_id
-        : no->emprestimo.usuario_id;
+    int idRelacionado;
+
+    if (procurarLivro)
+    {
+        idRelacionado = no->emprestimo.livro_id;
+    }
+    else
+    {
+        idRelacionado = no->emprestimo.usuario_id;
+    }
 
     if (idRelacionado == id && !no->emprestimo.devolvido)
+    {
         return 1;
+    }
 
     return buscarEmprestimoAberto(no->esquerda, id, procurarLivro) ||
            buscarEmprestimoAberto(no->direita, id, procurarLivro);
@@ -404,10 +433,12 @@ static int buscarEmprestimoAberto(const NoEmprestimo *no, int id, int procurarLi
 
 int livroTemEmprestimoEmAberto(int livroId)
 {
-    return buscarEmprestimoAberto(raizEmprestimos, livroId, 1); //usa 1 para indicar que a comparação deve ser feita com livro_id
+    return buscarEmprestimoAberto(raizEmprestimos, livroId, 1);
+    //usa 1 para indicar que a comparação deve ser feita com livro_id
 }
 
 int usuarioTemEmprestimoEmAberto(int usuarioId)
 {
-    return buscarEmprestimoAberto(raizEmprestimos, usuarioId, 0); //passa 0 para indicar que a busca deve comparar com usuario_id
+    return buscarEmprestimoAberto(raizEmprestimos, usuarioId, 0);
+    //passa 0 para indicar que a busca deve comparar com usuario_id
 }

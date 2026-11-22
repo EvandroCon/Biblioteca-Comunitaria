@@ -4,7 +4,7 @@
 #include "menu_livros.h"
 #include "menu_usuarios.h"
 #include "menu_emprestimos.h"
-#include "menu_fila.h"
+#include "menu_fila_espera.h"
 #include "../utils/entrada.h"
 
 void menuPrincipal() {
@@ -53,3 +53,4 @@ void menuPrincipal() {
         }
     }
 }
+
