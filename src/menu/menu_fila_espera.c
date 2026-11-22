@@ -88,9 +88,13 @@ void menuEntrarFila()
     {
         printf("Nao foi possivel adicionar. O usuario talvez ja esteja na fila deste livro.\n");
     }
+    else if (!salvarFilaEspera())
+    {
+        printf("Pedido %d adicionado a fila em memoria, mas houve erro ao salvar o arquivo.\n", id);
+    }
     else
     {
-        printf("Pedido %d adicionado ao final da fila.\n", id);
+        printf("Pedido %d adicionado e salvo na fila.\n", id);
     }
 }
 
@@ -116,12 +120,15 @@ void menuCancelarPedido()
         return;
     }
 
-    if (removerFilaEspera(id))
-    {
-        printf("Pedido cancelado.\n");
-    }
-    else
+    if (!removerFilaEspera(id))
     {
         printf("Pedido nao encontrado.\n");
     }
-}
+    else if (!salvarFilaEspera())
+    {
+        printf("Pedido removido, mas houve erro ao salvar.\n");
+    }
+    else
+    {
+        printf("Pedido cancelado.\n");
+    }
