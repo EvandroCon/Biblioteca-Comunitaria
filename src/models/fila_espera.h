@@ -16,5 +16,6 @@ void inicializarFilaEspera(void);
 int adicionarFilaEspera(int livro_id, int usuario_id);
 void liberarFilaEspera(void);
 int listarFilaEspera(int livro_id);
+int removerFilaEspera(int id);
 
 #endif //BIBLIOTECA_COMUNITARIA_FILA_ESPERA_H

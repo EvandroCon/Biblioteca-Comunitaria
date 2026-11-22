@@ -7,4 +7,5 @@
 void menuFilaEspera();
 void menuEntrarFila();
 void menuListarFila();
+void menuCancelarPedido();
 #endif //BIBLIOTECA_COMUNITARIA_MENU_FILA_H

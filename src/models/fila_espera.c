@@ -91,6 +91,47 @@ int listarFilaEspera(int livro_id)
     return total;
 }
 
+//a função procura um pedido pelo ID, remove o noh correspondente da lista e libera a memoria que ele ocupava
+int removerFilaEspera(int id)
+{
+    if (id <= 0)
+    {
+        return 0;
+    }
+
+    NoFila *atual = inicio;
+    NoFila *anterior = NULL;
+
+    while (atual != NULL && atual->solicitacao.id != id)
+    {
+        anterior = atual;
+        atual = atual->proximo;
+    }
+
+    if (atual == NULL)
+    {
+        return 0;
+    }
+
+    if (anterior == NULL)
+    {
+        inicio = atual->proximo;
+    }
+    else
+    {
+        anterior->proximo = atual->proximo;
+    }
+
+    if (fim == atual)
+    {
+        fim = anterior;
+    }
+
+    free(atual);
+
+    return 1;
+}
+
 void liberarFilaEspera(void)
 {
     NoFila *atual = inicio;

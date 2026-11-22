@@ -19,13 +19,15 @@ void menuFilaEspera()
         printf("3 - Cancelar pedido\n");
         printf("0 - Voltar\n");
 
-        if (!lerInt("\nEscolha uma opcao: ", &opcao)) {
+        if (!lerInt("\nEscolha uma opcao: ", &opcao))
+        {
             printf("\nEntrada invalida\n");
             opcao = -1;
             continue;
         }
 
-        switch (opcao) {
+        switch (opcao)
+        {
         case 1:
             menuEntrarFila();
             break;
@@ -35,7 +37,7 @@ void menuFilaEspera()
             break;
 
         case 3:
-            printf("\nCancelar pedido\n");
+            menuCancelarPedido();
             break;
 
         case 0:
@@ -59,7 +61,7 @@ void menuEntrarFila()
         return;
     }
 
-    Livro *livro = buscarLivroPorId(livroId);
+    Livro* livro = buscarLivroPorId(livroId);
 
     if (livro == NULL)
     {
@@ -102,4 +104,24 @@ void menuListarFila()
     }
     if (listarFilaEspera(livroId) == 0)
         printf("Nenhum pedido encontrado.\n");
+}
+
+void menuCancelarPedido()
+{
+    int id;
+
+    if (!lerInt("Codigo do pedido: ", &id) || id <= 0)
+    {
+        printf("Codigo invalido.\n");
+        return;
+    }
+
+    if (removerFilaEspera(id))
+    {
+        printf("Pedido cancelado.\n");
+    }
+    else
+    {
+        printf("Pedido nao encontrado.\n");
+    }
 }
