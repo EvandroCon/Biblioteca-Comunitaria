@@ -17,12 +17,14 @@ int main() {
     carregarEmprestimos();
 
     inicializarFilaEspera();
+    carregarFilaEspera();
 
     menuPrincipal();
 
     salvarLivros();
     salvarUsuarios();
     salvarEmprestimos();
+    salvarFilaEspera();
 
     liberarUsuarios();
     liberarLivros();

@@ -16,6 +16,8 @@ static NoFila *inicio = NULL;
 static NoFila *fim = NULL;
 static int proximoId = 1;
 
+static const char *caminho = "data/fila_espera.csv";
+
 void inicializarFilaEspera(void)
 {
     inicio = NULL;
@@ -143,4 +145,101 @@ void liberarFilaEspera(void)
     }
     inicio = fim = NULL;
     proximoId = 1;
+}
+
+int salvarFilaEspera(void)
+{
+    FILE *arquivo = fopen(caminho, "w");
+
+    if (arquivo == NULL)
+    {
+        return 0;
+    }
+
+    int sucesso = fprintf(arquivo, "id;livro_id;usuario_id\n") >= 0;
+
+    for (NoFila *atual = inicio;
+         sucesso && atual != NULL;
+         atual = atual->proximo)
+    {
+        sucesso = fprintf(arquivo, "%d;%d;%d\n",
+                          atual->solicitacao.id,
+                          atual->solicitacao.livro_id,
+                          atual->solicitacao.usuario_id) >= 0;
+    }
+
+    if (fclose(arquivo) != 0)
+    {
+        sucesso = 0;
+    }
+
+    return sucesso;
+}
+
+int carregarFilaEspera(void)
+{
+    FILE *arquivo = fopen(caminho, "r");
+
+    if (arquivo == NULL)
+    {
+        return 0;
+    }
+
+    char linha[128];
+
+    if (fgets(linha, sizeof linha, arquivo) == NULL)
+    {
+        fclose(arquivo);
+        return 0;
+    }
+
+    int total = 0;
+
+    while (fgets(linha, sizeof linha, arquivo) != NULL)
+    {
+        SolicitacaoFila s;
+
+        if (sscanf(linha, "%d;%d;%d",
+                   &s.id,
+                   &s.livro_id,
+                   &s.usuario_id) != 3 ||
+            s.id <= 0 ||
+            s.livro_id <= 0 ||
+            s.usuario_id <= 0)
+        {
+            continue;
+        }
+
+        NoFila *novo = malloc(sizeof *novo);
+
+        if (novo == NULL)
+        {
+            break;
+        }
+
+        novo->solicitacao = s;
+        novo->proximo = NULL;
+
+        if (fim == NULL)
+        {
+            inicio = novo;
+        }
+        else
+        {
+            fim->proximo = novo;
+        }
+
+        fim = novo;
+
+        if (s.id >= proximoId)
+        {
+            proximoId = s.id + 1;
+        }
+
+        total++;
+    }
+
+    fclose(arquivo);
+
+    return total;
 }
