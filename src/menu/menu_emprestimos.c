@@ -2,6 +2,7 @@
 #include "../models/emprestimos.h"
 #include "../models/livro.h"
 #include "../models/usuario.h"
+#include "../models/fila_espera.h"
 #include "../utils/entrada.h"
 #include <stdio.h>
 #include <string.h>
@@ -80,9 +81,28 @@ void menuCadastrarEmprestimo(void)
         printf("Usuario nao encontrado. Cadastre o usuario antes do emprestimo.\n");
         return;
     }
+    //consulta quem chegou primeiro na fila deste livro, se houver pedidos
+    SolicitacaoFila proximo;
+    int usuarioEstaNaFila = consultarProximoFilaEspera(emprestimo.livro_id, &proximo);
+
+    //enquanto houver fila, somente o primeiro usuario pode pegar o exemplar disponivel
+    if (usuarioEstaNaFila && proximo.usuario_id != emprestimo.usuario_id)
+    {
+        printf("Este livro tem fila de espera. O proximo usuario e %d.\n",
+               proximo.usuario_id);
+        return;
+    }
+    //sem exemplares disponiveis, o emprestimo nao pode ser cadastrado
     if (livro->quantidade <= 0)
     {
-        printf("Nao ha exemplares disponiveis deste livro.\n");
+        if (usuarioEstaNaFila)
+        {
+            printf("Ainda nao ha exemplar disponivel. O usuario permanece na fila.\n");
+        }
+        else
+        {
+            printf("Nao ha exemplares disponiveis. O usuario deve entrar na fila de espera.\n");
+        }
         return;
     }
     lerString("Data do emprestimo (DD/MM/AAAA): ", emprestimo.data_emprestimo,
@@ -102,8 +122,27 @@ void menuCadastrarEmprestimo(void)
     }
     livro->quantidade--;
 
+    //se o usuario atendido estava na fila, remove seu pedido e persiste a fila atualizada
+    int filaSalva = 1;
+
+    if (usuarioEstaNaFila)
+    {
+        if (removerFilaEspera(proximo.id))
+        {
+            filaSalva = salvarFilaEspera();
+        }
+        else
+        {
+            filaSalva = 0;
+        }
+    }
     int emprestimosSalvos = salvarEmprestimos();
     int livrosSalvos = salvarLivros();
+
+    if (!emprestimosSalvos || !livrosSalvos || !filaSalva)
+    {
+        printf("Emprestimo cadastrado, mas houve erro ao salvar um ou mais arquivos.\n");
+    }
 
     if (!emprestimosSalvos || !livrosSalvos)
     {
@@ -196,5 +235,13 @@ void menuDevolverLivro(void)
             printf("Devolucao registrada e arquivos atualizados.\n");
         else
             printf("Devolucao registrada, mas houve erro ao salvar um ou mais arquivos.\n");
+
+        //a devolucao libera um exemplar, o primeiro da fila tem prioridade no proximo emprestimo
+        SolicitacaoFila proximo;
+        if (consultarProximoFilaEspera(livroId, &proximo))
+        {
+            printf("O exemplar devolvido deve ser oferecido primeiro ao usuario %d, "
+                   "que esta no inicio da fila.\n", proximo.usuario_id);
+        }
     }
 }

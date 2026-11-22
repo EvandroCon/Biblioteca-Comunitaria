@@ -18,6 +18,8 @@ void liberarFilaEspera(void);
 int listarFilaEspera(int livro_id);
 int removerFilaEspera(int id);
 
+int consultarProximoFilaEspera(int livro_id, SolicitacaoFila *solicitacao);
+
 int salvarFilaEspera(void);
 int carregarFilaEspera(void);
 

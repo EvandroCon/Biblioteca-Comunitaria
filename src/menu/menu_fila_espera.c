@@ -69,6 +69,7 @@ void menuEntrarFila()
         return;
     }
 
+    //a fila e destinada a livros cadastrados sem exemplares disponiveis
     if (livro->quantidade > 0)
     {
         printf("Ha exemplares disponiveis. Nao e necessario entrar na fila.\n");
@@ -81,7 +82,7 @@ void menuEntrarFila()
         printf("Usuario nao encontrado.\n");
         return;
     }
-
+    //adiciona o pedido ao final da fila e salva para manter a ordem entre execucoes
     int id = adicionarFilaEspera(livroId, usuarioId);
 
     if (id == 0)
@@ -107,7 +108,9 @@ void menuListarFila()
         return;
     }
     if (listarFilaEspera(livroId) == 0)
+    {
         printf("Nenhum pedido encontrado.\n");
+    }
 }
 
 void menuCancelarPedido()
@@ -132,3 +135,4 @@ void menuCancelarPedido()
     {
         printf("Pedido cancelado.\n");
     }
+}

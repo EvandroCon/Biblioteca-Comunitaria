@@ -64,6 +64,27 @@ int adicionarFilaEspera(int livro_id, int usuario_id)
     return novo->solicitacao.id;
 }
 
+int consultarProximoFilaEspera(int livro_id, SolicitacaoFila *solicitacao)
+{
+    if (livro_id <= 0 || solicitacao == NULL)
+    {
+        return 0;
+    }
+
+    for (NoFila *atual = inicio;
+         atual != NULL;
+         atual = atual->proximo)
+    {
+        if (atual->solicitacao.livro_id == livro_id)
+        {
+            *solicitacao = atual->solicitacao;
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
 int listarFilaEspera(int livro_id)
 {
     int total = 0;
