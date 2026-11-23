@@ -13,6 +13,8 @@ int main() {
     inicializarUsuarios();
     carregarUsuarios();
 
+    imprimirArvoreUsuarios();
+
     inicializarEmprestimos();
     carregarEmprestimos();
 

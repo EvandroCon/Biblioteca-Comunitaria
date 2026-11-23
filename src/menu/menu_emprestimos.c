@@ -144,10 +144,6 @@ void menuCadastrarEmprestimo(void)
         printf("Emprestimo cadastrado, mas houve erro ao salvar um ou mais arquivos.\n");
     }
 
-    if (!emprestimosSalvos || !livrosSalvos)
-    {
-        printf("Emprestimo cadastrado, mas houve erro ao salvar um ou mais arquivos.\n");
-    }
     else
     {
         printf("Emprestimo cadastrado e arquivos atualizados.\n");

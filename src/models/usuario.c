@@ -213,6 +213,23 @@ int listarUsuarios(void)
     return listarNo(raizUsuarios);
 }
 
+static void imprimirNo(const NoUsuario* no, int nivel)
+{
+    if (no == NULL)
+    {
+        return;
+    }
+
+    imprimirNo(no->direita, nivel + 1);
+    printf("%*s%d\n", nivel * 4, "", no->usuario.id);
+    imprimirNo(no->esquerda, nivel + 1);
+}
+
+void imprimirArvoreUsuarios(void)
+{
+    imprimirNo(raizUsuarios, 0);
+}
+
 static void liberarNo(NoUsuario* raiz)
 {
     if (raiz == NULL)
@@ -231,6 +248,9 @@ void liberarUsuarios(void)
     raizUsuarios = NULL;
 }
 
+//O codigo antigo organizava o arquivo em ordem crescente
+//e isso estraga a arvore na proxima abertura, com a função
+//nova, o arquivo sai em pre-ordem(nó, esquerda, direita).
 //percorre a arvore binaria em ordem e grava cada usuario
 static int salvarNos(FILE *arquivo, const NoUsuario *no)
 {
@@ -239,15 +259,17 @@ static int salvarNos(FILE *arquivo, const NoUsuario *no)
         return 1;
     }
 
-    if (!salvarNos(arquivo, no->esquerda))
-    {
-        return 0;
-    }
-
+    // 1) grava o nó primeiro (pré-ordem)
     if (fprintf(arquivo, "%d;%s;%s\n",
                 no->usuario.id,
                 no->usuario.nome,
                 no->usuario.email) < 0)
+    {
+        return 0;
+    }
+
+    // 2) depois a esquerda e 3) a direita
+    if (!salvarNos(arquivo, no->esquerda))
     {
         return 0;
     }

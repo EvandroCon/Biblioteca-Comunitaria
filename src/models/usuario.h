@@ -19,6 +19,8 @@ int removerUsuario(int id);
 int listarUsuarios(void);
 void liberarUsuarios(void);
 
+void imprimirArvoreUsuarios(void);
+
 int salvarUsuarios(void);
 int carregarUsuarios(void);
 
