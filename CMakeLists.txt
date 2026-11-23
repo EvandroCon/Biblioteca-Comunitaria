@@ -32,8 +32,6 @@ add_executable(Biblioteca-Comunitaria main.c
         src/menu/menu_usuarios.h
         src/menu/menu_emprestimos.c
         src/menu/menu_emprestimos.h
-        src/menu/menu_historico.c
-        src/menu/menu_historico.h
         src/utils/entrada.c
         src/utils/entrada.h
         src/models/fila_espera.c
