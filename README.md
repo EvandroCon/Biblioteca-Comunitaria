@@ -61,21 +61,10 @@ Características do sistema:
 
 ## Como compilar e executar
 
-Requisitos: compilador C compatível com C23, CMake 4.1 ou superior e Git.
-
-Na pasta principal do projeto:
+Requisitos: compilador C compatível com C23, CMake e Git.
 
 ```bash
-Se não tiver com cmake instalado:
-
-winget install --id Kitware.CMake --exact
-
-
-Se já estiver instalado:
-
-cmake -S . -B build
-cmake --build build
-./build/Biblioteca-Comunitaria
+Clonar repositório do github e executar: https://github.com/EvandroCon/Biblioteca-Comunitaria.git
 
 Pelo CLion: se não reconhecer os arquivos.csv: vá em Run > Edit Configurations,
 localize o campo Working directory e altere para $ProjectFileDir$
